@@ -8,14 +8,14 @@
 <meta property="og:title" content="Open Notebook Hardware Requirements — From $5 VPS to RTX 4090">
 <meta property="og:description" content="Stop guessing what GPU you need. Three tiers with VRAM math and real GPU comparisons.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://ownnote.dev/hardware/">
+<meta property="og:url" content="https://localnotebook.dev/hardware/">
 <meta property="og:site_name" content="Open Notebook Guide">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Open Notebook Hardware Requirements — From $5 VPS to RTX 4090">
 <meta name="twitter:description" content="Stop guessing what GPU you need. Three tiers with VRAM math and real GPU comparisons.">
-<meta property="og:image" content="https://ownnote.dev/assets/og-image.svg">
-<meta name="twitter:image" content="https://ownnote.dev/assets/og-image.svg">
-<link rel="canonical" href="https://ownnote.dev/hardware/">
+<meta property="og:image" content="https://localnotebook.dev/assets/og-image.svg">
+<meta name="twitter:image" content="https://localnotebook.dev/assets/og-image.svg">
+<link rel="canonical" href="https://localnotebook.dev/hardware/">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
 <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
@@ -24,120 +24,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
-<style>
-:root {
-  --bg: #0d1117; --surface: #161b22; --border: #30363d;
-  --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff;
-  --danger: #f85149; --warn: #d2991d; --ok: #3fb950;
-  --code-bg: #1c2128; --radius: 6px; --max-w: 820px;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-body {
-  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  background: var(--bg); color: var(--text); line-height: 1.65;
-  padding: 0 1rem 3rem;
-}
-nav {
-  max-width: var(--max-w); margin: 0 auto; padding: 1.2rem 0;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: .5rem;
-}
-nav a { color: var(--muted); text-decoration: none; font-size: .9rem; }
-nav a:hover { color: var(--accent); }
-.logo { font-weight: 600; color: var(--text); font-size: 1rem; }
-.logo span { color: var(--accent); }
-main { max-width: var(--max-w); margin: 0 auto; }
-.hero { padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
-h1 { font-size: 2rem; line-height: 1.3; margin-bottom: .6rem; }
-h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 1px solid var(--border); }
-h3 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; color: var(--accent); }
-p { margin-bottom: 1rem; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-pre {
-  background: var(--code-bg); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1rem 1.2rem;
-  overflow-x: auto; font-size: .88rem; line-height: 1.55;
-  margin: .8rem 0 1.2rem;
-}
-:not(pre) > code {
-  background: var(--code-bg); padding: .12rem .35rem;
-  border-radius: 3px; font-size: .85rem; border: 1px solid var(--border);
-}
-table {
-  width: 100%; border-collapse: collapse; margin: 1rem 0;
-  border: 1px solid var(--border); border-radius: var(--radius);
-}
-th, td {
-  padding: .7rem 1rem; text-align: left;
-  border-bottom: 1px solid var(--border);
-}
-th { background: var(--surface); font-weight: 600; font-size: .9rem; }
-td { font-size: .9rem; }
-tr:last-child td { border-bottom: none; }
-.btn {
-  display: inline-block; padding: .6rem 1.4rem; border-radius: var(--radius);
-  font-size: .9rem; font-weight: 500; text-decoration: none;
-  transition: all .15s;
-}
-.btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
-.btn-primary:hover { background: #4090e0; text-decoration: none; }
-.btn-outline { background: transparent; color: var(--ok); border: 1px solid var(--ok); }
-.btn-outline:hover { border-color: #2ea043; color: #2ea043; text-decoration: none; }
-.callout {
-  background: var(--surface); border-left: 3px solid var(--accent);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 1rem 1.3rem; margin: 1rem 0;
-}
-.callout.warn { border-left-color: var(--warn); }
-.callout.ok { border-left-color: var(--ok); }
-.tier-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 24px; margin: 20px 0;
-}
-.tier-card h3 { margin-top: 0; }
-.tier-label {
-  display: inline-block; padding: 3px 12px; border-radius: 12px;
-  font-size: .78rem; font-weight: 600; margin-bottom: 12px;
-}
-.tier-label.green { background: #1a3a2a; color: var(--ok); }
-.tier-label.blue { background: #1a2a3a; color: var(--accent); }
-.tier-label.purple { background: #2a1a3a; color: #bc8cff; }
-.spec-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px; margin: 16px 0;
-}
-.spec-item {
-  background: var(--code-bg); border-radius: var(--radius);
-  padding: 12px 16px; text-align: center;
-}
-.spec-value { font-size: 1.2rem; font-weight: 600; color: var(--text); }
-.spec-label { font-size: .78rem; color: var(--muted); margin-top: 4px; }
-footer {
-  max-width: var(--max-w); margin: 3rem auto 0;
-  padding-top: 1.5rem; border-top: 1px solid var(--border);
-  color: var(--muted); font-size: .85rem; text-align: center;
-}
-@media (max-width: 600px) {
-  h1 { font-size: 1.5rem; }
-  pre { font-size: .8rem; padding: .8rem; }
-  .spec-grid { grid-template-columns: repeat(2, 1fr); }
-}
-</style>
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<nav>
-  <a href="/" class="logo">Open Notebook <span>Guide</span></a>
-  <div>
+<nav class="nav">
+  <a href="/" class="nav-logo">Open Notebook <span style="color:var(--text);">Guide</span></a>
+  <div class="nav-links">
     <a href="/deployment/">Deployment</a>
-    <a href="/hardware/" style="color:var(--text);font-weight:500;">Hardware</a>
-    <a href="/models/" style="margin-left:1rem;">Models</a>
-    <a href="/vs-notebooklm/" style="margin-left:1rem;">vs NotebookLM</a>
-    <a href="/faq/" style="margin-left:1rem;">FAQ</a>
-    <a href="/production-guide/" style="margin-left:1rem;">Pro Guide</a>
+    <a href="/hardware/" class="current">Hardware</a>
+    <a href="/models/">Models</a>
+    <a href="/vs-notebooklm/">vs NotebookLM</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/production-guide/">Manual</a>
   </div>
 </nav>
 
@@ -145,7 +44,7 @@ footer {
 
 <section class="hero">
   <h1>"How Much GPU Do I Actually Need?" — No More Guessing.</h1>
-  <p style="color:var(--muted);font-size:1.05rem;line-height:1.6;">Three tiers with exact specs and VRAM math. <strong style="color:var(--ok);">From $5/month to RTX 4090</strong> — pick what fits your scale.</p>
+  <p class="hero-sub">Three tiers with exact specs and VRAM math. <strong>From $5/month to RTX 4090</strong> — pick what fits your scale.</p>
 </section>
 
 <section>
@@ -154,7 +53,7 @@ footer {
 <div class="tier-card">
   <span class="tier-label green">Minimum</span>
   <h3>Cloud API Mode — No GPU Needed</h3>
-  <p style="color:var(--muted);">Open Notebook app + SurrealDB. All AI inference happens on the provider's servers.</p>
+  <p style="color:var(--text-muted);">Open Notebook app + SurrealDB. All AI inference happens on the provider's servers.</p>
   <div class="spec-grid">
     <div class="spec-item"><div class="spec-value">4 GB</div><div class="spec-label">RAM</div></div>
     <div class="spec-item"><div class="spec-value">2+ GB</div><div class="spec-label">Disk</div></div>
@@ -167,7 +66,7 @@ footer {
 <div class="tier-card">
   <span class="tier-label blue">Recommended</span>
   <h3>Local Ollama Models — Consumer GPU</h3>
-  <p style="color:var(--muted);">Run models locally for privacy and zero per-token cost. One user, one GPU.</p>
+  <p style="color:var(--text-muted);">Run models locally for privacy and zero per-token cost. One user, one GPU.</p>
   <div class="spec-grid">
     <div class="spec-item"><div class="spec-value">16–32 GB</div><div class="spec-label">RAM</div></div>
     <div class="spec-item"><div class="spec-value">20+ GB</div><div class="spec-label">Disk</div></div>
@@ -175,6 +74,7 @@ footer {
     <div class="spec-item"><div class="spec-value">$0/mo</div><div class="spec-label">API Cost</div></div>
   </div>
   <p>GPU recommendations:</p>
+  <div style="overflow-x:auto;">
   <table>
     <thead><tr><th>GPU</th><th>VRAM</th><th>Best Model Fit</th><th>Approx. Price</th></tr></thead>
     <tbody>
@@ -185,12 +85,13 @@ footer {
       <tr><td>2× RTX 3090</td><td>48 GB total</td><td>Mixtral 8×7B, 34B models</td><td>~$1,400 used</td></tr>
     </tbody>
   </table>
+  </div>
 </div>
 
 <div class="tier-card">
   <span class="tier-label purple">Production</span>
   <h3>Multi-User, High-Volume — Server GPU</h3>
-  <p style="color:var(--muted);">5+ concurrent users running local models. Separate Ollama machine recommended.</p>
+  <p style="color:var(--text-muted);">5+ concurrent users running local models. Separate Ollama machine recommended.</p>
   <div class="spec-grid">
     <div class="spec-item"><div class="spec-value">64 GB</div><div class="spec-label">RAM</div></div>
     <div class="spec-item"><div class="spec-value">100+ GB</div><div class="spec-label">NVMe SSD</div></div>
@@ -245,18 +146,18 @@ OLLAMA_HOST=0.0.0.0:11434 ollama serve
 </table>
 </div>
 
-<p style="color:var(--muted);font-size:.85rem;">Assumes GPT-4o-mini pricing (~$0.15/1M input, ~$0.60/1M output). Electricity: ~$15–40/month for a GPU machine under load. <a href="/models/">Detailed model cost comparison →</a></p>
+<p style="color:var(--text-muted);font-size:.85rem;">Assumes GPT-4o-mini pricing (~$0.15/1M input, ~$0.60/1M output). Electricity: ~$15–40/month for a GPU machine under load. <a href="/models/">Detailed model cost comparison →</a></p>
 </section>
 
-<section style="margin-top:3rem;text-align:center;">
-  <h2 style="color:var(--ok); border:none; margin-bottom:.5rem;">Picked Your Hardware?</h2>
-  <p style="color:var(--muted);font-size:1.05rem;">Next: <a href="/deployment/">follow the deployment guide →</a> or get the <strong style="color:var(--text);">Production Manual</strong> for monitoring, CI/CD, and the 30+ errors that hit at scale.</p>
-  <a href="/production-guide/" class="btn btn-outline" style="margin-top:1rem;font-size:1rem;padding:.8rem 2rem;">Get the Production Manual — $19</a>
+<section class="cta-section">
+  <h2>Picked Your Hardware?</h2>
+  <p style="color:var(--text-muted);font-size:1.05rem;">Next: <a href="/deployment/">follow the deployment guide →</a> or get the <strong>Production Manual</strong> for monitoring, CI/CD, and the 30+ errors that hit at scale.</p>
+  <a href="/production-guide/" class="btn btn-accent btn-lg" style="margin-top:1rem;">Get the Production Manual — $19</a>
 </section>
 
 </main>
 
-<footer>
+<footer class="footer">
   <p><a href="/">Open Notebook Guide</a> — independent community resource. Not affiliated with lfnovo or Google.</p>
   <p style="margin-top:.5rem;">
     <a href="/privacy/">Privacy</a> &middot;

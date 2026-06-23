@@ -8,14 +8,14 @@
 <meta property="og:title" content="Open Notebook Production Manual — Full Deploy Configs, 30+ Error Fixes">
 <meta property="og:description" content="Production-grade deployment manual. Monitoring, CI/CD, 30+ error fixes. PDF + Markdown, $19.">
 <meta property="og:type" content="product">
-<meta property="og:url" content="https://ownnote.dev/production-guide/">
+<meta property="og:url" content="https://localnotebook.dev/production-guide/">
 <meta property="og:site_name" content="Open Notebook Guide">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Open Notebook Production Manual — Full Deploy Configs, 30+ Error Fixes">
 <meta name="twitter:description" content="Production-grade deployment manual. Monitoring, CI/CD, 30+ error fixes. PDF + Markdown, $19.">
-<meta property="og:image" content="https://ownnote.dev/assets/og-image.svg">
-<meta name="twitter:image" content="https://ownnote.dev/assets/og-image.svg">
-<link rel="canonical" href="https://ownnote.dev/production-guide/">
+<meta property="og:image" content="https://localnotebook.dev/assets/og-image.svg">
+<meta name="twitter:image" content="https://localnotebook.dev/assets/og-image.svg">
+<link rel="canonical" href="https://localnotebook.dev/production-guide/">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
 <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
@@ -24,102 +24,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
-<style>
-:root {
-  --bg: #0d1117; --surface: #161b22; --border: #30363d;
-  --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff;
-  --danger: #f85149; --warn: #d2991d; --ok: #3fb950;
-  --code-bg: #1c2128; --radius: 6px; --max-w: 820px;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-body {
-  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  background: var(--bg); color: var(--text); line-height: 1.65;
-  padding: 0 1rem 3rem;
-}
-nav {
-  max-width: var(--max-w); margin: 0 auto; padding: 1.2rem 0;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: .5rem;
-}
-nav a { color: var(--muted); text-decoration: none; font-size: .9rem; }
-nav a:hover { color: var(--accent); }
-.logo { font-weight: 600; color: var(--text); font-size: 1rem; }
-.logo span { color: var(--accent); }
-main { max-width: var(--max-w); margin: 0 auto; }
-.hero { padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
-h1 { font-size: 2rem; line-height: 1.3; margin-bottom: .6rem; }
-h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 1px solid var(--border); }
-h3 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; color: var(--accent); }
-p { margin-bottom: 1rem; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-pre {
-  background: var(--code-bg); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1rem 1.2rem;
-  overflow-x: auto; font-size: .88rem; line-height: 1.55;
-  margin: .8rem 0 1.2rem;
-}
-:not(pre) > code {
-  background: var(--code-bg); padding: .12rem .35rem;
-  border-radius: 3px; font-size: .85rem; border: 1px solid var(--border);
-}
-.btn {
-  display: inline-block; padding: .6rem 1.4rem; border-radius: var(--radius);
-  font-size: .9rem; font-weight: 500; text-decoration: none;
-  transition: all .15s;
-}
-.btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
-.btn-primary:hover { background: #4090e0; text-decoration: none; }
-.btn-outline { background: transparent; color: var(--ok); border: 1px solid var(--ok); }
-.btn-outline:hover { border-color: #2ea043; color: #2ea043; text-decoration: none; }
-.callout {
-  background: var(--surface); border-left: 3px solid var(--accent);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 1rem 1.3rem; margin: 1rem 0;
-}
-.callout.warn { border-left-color: var(--warn); }
-.callout.ok { border-left-color: var(--ok); }
-.module-list {
-  list-style: none; padding: 0;
-}
-.module-list li {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px 18px; margin-bottom: 8px;
-}
-.module-list li strong { color: var(--accent); }
-footer {
-  max-width: var(--max-w); margin: 3rem auto 0;
-  padding-top: 1.5rem; border-top: 1px solid var(--border);
-  color: var(--muted); font-size: .85rem; text-align: center;
-}
-.pricing-box {
-  background: var(--surface); border: 1px solid var(--ok);
-  border-radius: var(--radius); padding: 32px 24px;
-  text-align: center; margin: 32px 0;
-}
-.price { font-size: 3rem; font-weight: 700; color: var(--text); }
-.price sub { font-size: 1rem; color: var(--muted); font-weight: 400; }
-.guarantee { font-size: .88rem; color: var(--muted); margin-top: 12px; }
-@media (max-width: 600px) {
-  h1 { font-size: 1.5rem; }
-  pre { font-size: .8rem; padding: .8rem; }
-}
-</style>
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<nav>
-  <a href="/" class="logo">Open Notebook <span>Guide</span></a>
-  <div>
+<nav class="nav">
+  <a href="/" class="nav-logo">Open Notebook <span style="color:var(--text);">Guide</span></a>
+  <div class="nav-links">
     <a href="/deployment/">Deployment</a>
     <a href="/hardware/">Hardware</a>
     <a href="/models/">Models</a>
     <a href="/vs-notebooklm/">vs NotebookLM</a>
     <a href="/faq/">FAQ</a>
-    <a href="/production-guide/" style="color:var(--ok);font-weight:500;">Pro Guide</a>
+    <a href="/production-guide/" class="current" style="color:var(--google-green);">Manual</a>
   </div>
 </nav>
 
@@ -127,25 +44,25 @@ footer {
 
 <section class="hero">
   <h1>You Got Open Notebook Running. Now Keep It Running.</h1>
-  <p style="color:var(--muted);font-size:1.05rem;line-height:1.6;">The free guides get you to Docker. The <strong style="color:var(--ok);">Production Manual</strong> gets you to team-ready — <strong>100+ pages</strong>, full deploy configs, 30+ error fixes, monitoring, CI/CD. <strong style="color:var(--ok);">Save 20+ hours</strong> of debugging.</p>
-  <div style="margin-top:1.5rem;">
-    <a href="#buy" class="btn btn-outline" style="font-size:1rem;padding:.7rem 2rem;">Buy Now — $19</a>
+  <p class="hero-sub">The free guides get you to Docker. The <strong style="color:var(--google-green);">Production Manual</strong> gets you to team-ready — <strong>100+ pages</strong>, full deploy configs, 30+ error fixes, monitoring, CI/CD. <strong style="color:var(--google-green);">Save 20+ hours</strong> of debugging.</p>
+  <div class="hero-actions">
+    <a href="#buy" class="btn btn-accent btn-lg">Buy Now — $19</a>
   </div>
 </section>
 
 <section>
   <h2>Who This Is For</h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-    <div style="background:var(--surface);border:1px solid var(--ok);border-radius:var(--radius);padding:16px 18px;">
-      <strong style="color:var(--ok);">&#10003; You</strong> — if you've already got Open Notebook running via Docker, but don't trust it for team use yet.
+  <div class="who-grid">
+    <div class="who-yes">
+      <strong style="color:var(--google-green);">&#10003; You</strong> — if you've already got Open Notebook running via Docker, but don't trust it for team use yet.
     </div>
-    <div style="background:var(--surface);border:1px solid var(--ok);border-radius:var(--radius);padding:16px 18px;">
-      <strong style="color:var(--ok);">&#10003; You</strong> — if you need monitoring, backups, CI/CD, and multi-user isolation before sharing it with colleagues.
+    <div class="who-yes">
+      <strong style="color:var(--google-green);">&#10003; You</strong> — if you need monitoring, backups, CI/CD, and multi-user isolation before sharing it with colleagues.
     </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;">
+    <div class="who-no">
       <strong>&#10007; Not you</strong> — if you're just exploring for personal use. The free deployment guide is enough. This manual is overkill for tinkering.
     </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;">
+    <div class="who-no">
       <strong>&#10007; Not you</strong> — if you want an official supported product. This is community knowledge, not lfnovo documentation.
     </div>
   </div>
@@ -190,13 +107,13 @@ footer {
 </section>
 
 <section id="buy">
-<h2 style="color:var(--ok); border-color:var(--ok);">Get the Production Manual</h2>
+<h2 style="color:var(--google-green); border-color:var(--google-green);">Get the Production Manual</h2>
 
 <div class="pricing-box">
   <div class="price">$19 <sub>one-time</sub></div>
-  <p style="color:var(--muted);margin-top:8px;">PDF + Markdown. Instant download. Free updates.</p>
-  <a href="/pricing/" class="btn btn-outline" style="margin-top:1rem;font-size:1.05rem;padding:.8rem 2.5rem;">Buy Now</a>
-  <p class="guarantee">30-day money-back guarantee. If it doesn't save you 20+ hours, email support@ownnote.dev for a full refund.</p>
+  <p style="color:var(--text-muted);margin-top:8px;">PDF + Markdown. Instant download. Free updates.</p>
+  <button onclick="Paddle.Checkout.open({settings:{successUrl:'https://localnotebook.dev/thanks/'},items:[{priceId:'OPEN_NOTEBOOK_PRICE_ID',quantity:1}]})" class="btn btn-accent btn-lg" style="margin-top:1rem;font-family:inherit;cursor:pointer;">Buy Now — $19</button>
+  <p class="guarantee">30-day money-back guarantee. If it doesn't save you 20+ hours, email support@localnotebook.dev for a full refund.</p>
 </div>
 
 <div class="callout warn" style="text-align:left;margin-top:20px;">
@@ -211,30 +128,30 @@ footer {
 <section>
 <h2>FAQ</h2>
 
-<details style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem;margin:.5rem 0;">
-<summary style="cursor:pointer;font-weight:500;">Is this official? Does lfnovo endorse it?</summary>
-<div style="padding-top:.6rem;color:var(--muted);font-size:.93rem;">
+<details>
+<summary>Is this official? Does lfnovo endorse it?</summary>
+<div class="faq-answer">
   <p>No. This is an independent community resource. Not affiliated with or endorsed by lfnovo or Google. It's built from real-world deployment experience — running Open Notebook in production for document research.</p>
 </div>
 </details>
 
-<details style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem;margin:.5rem 0;">
-<summary style="cursor:pointer;font-weight:500;">What if it doesn't help me?</summary>
-<div style="padding-top:.6rem;color:var(--muted);font-size:.93rem;">
-  <p>Email support@ownnote.dev within 30 days for a full refund. No questions asked. We mean it — if the manual doesn't save you 20+ hours, you shouldn't pay for it.</p>
+<details>
+<summary>What if it doesn't help me?</summary>
+<div class="faq-answer">
+  <p>Email support@localnotebook.dev within 30 days for a full refund. No questions asked. We mean it — if the manual doesn't save you 20+ hours, you shouldn't pay for it.</p>
 </div>
 </details>
 
-<details style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem;margin:.5rem 0;">
-<summary style="cursor:pointer;font-weight:500;">Will this stay updated with new Open Notebook versions?</summary>
-<div style="padding-top:.6rem;color:var(--muted);font-size:.93rem;">
+<details>
+<summary>Will this stay updated with new Open Notebook versions?</summary>
+<div class="faq-answer">
   <p>Yes. You get all future updates at no extra cost. When Open Notebook ships a breaking change or new feature, the manual is updated within 2 weeks.</p>
 </div>
 </details>
 
-<details style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem;margin:.5rem 0;">
-<summary style="cursor:pointer;font-weight:500;">I just need the free guides. Is this necessary?</summary>
-<div style="padding-top:.6rem;color:var(--muted);font-size:.93rem;">
+<details>
+<summary>I just need the free guides. Is this necessary?</summary>
+<div class="faq-answer">
   <p>For personal use with cloud APIs, the free deployment guide is enough. If you're deploying for a team, running local models, or need it to work reliably day after day — that's when the 30+ error fixes, monitoring setup, and CI/CD templates pay for themselves.</p>
 </div>
 </details>
@@ -242,7 +159,7 @@ footer {
 
 </main>
 
-<footer>
+<footer class="footer">
   <p><a href="/">Open Notebook Guide</a> — independent community resource. Not affiliated with lfnovo or Google.</p>
   <p style="margin-top:.5rem;">
     <a href="/privacy/">Privacy</a> &middot;
@@ -250,5 +167,7 @@ footer {
     <a href="/refunds/">Refunds</a>
   </p>
 </footer>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>Paddle.Initialize({token:'OPEN_NOTEBOOK_LIVE_TOKEN',eventCallback:function(data){if(data.name==='checkout.completed'){window.location.href='https://localnotebook.dev/thanks/';}}});</script>
 </body>
 </html>

@@ -1,9 +1,8 @@
 User-agent: *
 Allow: /
-Allow: /pricing/
 Disallow: /thanks/
 Disallow: /privacy/
 Disallow: /terms/
 Disallow: /refunds/
 
-Sitemap: https://ownnote.dev/sitemap.xml
+Sitemap: https://localnotebook.dev/sitemap.xml
