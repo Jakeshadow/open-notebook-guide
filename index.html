@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tired of NotebookLM's Limits? Self-Host Open Notebook</title>
+<meta name="description" content="Deploy Open Notebook — the self-hosted NotebookLM alternative with 18+ AI providers. Full Docker setup, hardware sizing, and production guide.">
+<meta property="og:title" content="Tired of NotebookLM's Limits? Self-Host Open Notebook">
+<meta property="og:description" content="Self-host your own NotebookLM alternative. 18+ AI providers, full privacy, no source caps. Docker setup in 2 minutes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ownnote.dev/">
+<meta property="og:site_name" content="Open Notebook Guide">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tired of NotebookLM's Limits? Self-Host Open Notebook">
+<meta name="twitter:description" content="Self-host your own NotebookLM alternative. 18+ AI providers, full privacy, no source caps.">
+  <meta property="og:image" content="https://ownnote.dev/assets/og-image.svg">
+  <meta name="twitter:image" content="https://ownnote.dev/assets/og-image.svg">
+<link rel="canonical" href="https://ownnote.dev/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<style>
+:root {
+  --bg: #0d1117; --surface: #161b22; --border: #30363d;
+  --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff;
+  --danger: #f85149; --warn: #d2991d; --ok: #3fb950;
+  --code-bg: #1c2128; --radius: 6px; --max-w: 820px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.65;
+  padding: 0 1rem 3rem;
+}
+nav {
+  max-width: var(--max-w); margin: 0 auto; padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: .5rem;
+}
+nav a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+nav a:hover { color: var(--accent); }
+.logo { font-weight: 600; color: var(--text); font-size: 1rem; }
+.logo span { color: var(--accent); }
+main { max-width: var(--max-w); margin: 0 auto; }
+.hero { padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+h1 { font-size: 2rem; line-height: 1.3; margin-bottom: .6rem; }
+h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+p { margin-bottom: 1rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+pre {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.2rem;
+  overflow-x: auto; font-size: .88rem; line-height: 1.55;
+  margin: .8rem 0 1.2rem; position: relative;
+}
+:not(pre) > code {
+  background: var(--code-bg); padding: .12rem .35rem;
+  border-radius: 3px; font-size: .85rem; border: 1px solid var(--border);
+}
+table {
+  width: 100%; border-collapse: collapse; margin: 1rem 0;
+  border: 1px solid var(--border); border-radius: var(--radius);
+}
+th, td {
+  padding: .7rem 1rem; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th { background: var(--surface); font-weight: 600; font-size: .9rem; }
+td { font-size: .9rem; }
+tr:last-child td { border-bottom: none; }
+.btn {
+  display: inline-block; padding: .6rem 1.4rem; border-radius: var(--radius);
+  font-size: .9rem; font-weight: 500; text-decoration: none;
+  transition: all .15s;
+}
+.btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+.btn-primary:hover { background: #4090e0; text-decoration: none; }
+.btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--accent); text-decoration: none; }
+.callout {
+  background: var(--surface); border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.3rem; margin: 1rem 0;
+}
+.callout.warn { border-left-color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+details {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: .8rem 1rem; margin: .5rem 0;
+}
+details summary { cursor: pointer; font-weight: 500; }
+.faq-answer { padding-top: .6rem; color: var(--muted); font-size: .93rem; }
+nav .current { color: var(--text); font-weight: 500; }
+.overview-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px; margin-top: 24px;
+}
+.overview-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  text-decoration: none; display: block; transition: border-color .15s;
+}
+.overview-card:hover { border-color: var(--accent); text-decoration: none; }
+.overview-card h3 { color: var(--accent); margin: 0 0 8px; font-size: 1.1rem; }
+.overview-card p { color: var(--muted); font-size: .85rem; margin: 0; }
+footer {
+  max-width: var(--max-w); margin: 3rem auto 0;
+  padding-top: 1.5rem; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: .85rem; text-align: center;
+}
+@media (max-width: 600px) {
+  h1 { font-size: 1.5rem; }
+  pre { font-size: .8rem; padding: .8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Open Notebook <span>Guide</span></a>
+  <div>
+    <a href="/deployment/">Deployment</a>
+    <a href="/hardware/" style="margin-left:1rem;">Hardware</a>
+    <a href="/models/" style="margin-left:1rem;">Models</a>
+    <a href="/vs-notebooklm/" style="margin-left:1rem;">vs NotebookLM</a>
+    <a href="/faq/" style="margin-left:1rem;">FAQ</a>
+    <a href="/production-guide/" style="margin-left:1rem;">Pro Guide</a>
+  </div>
+</nav>
+
+<main>
+
+<section class="hero">
+  <h1>NotebookLM Is Great. Until You Hit the 50-Source Cap, the 2-Speaker Limit, and "Google Can Read Everything."</h1>
+  <p style="color:var(--muted);font-size:1.1rem;line-height:1.6;">Open Notebook is the self-hosted alternative — <strong style="color:var(--ok);">18+ AI providers</strong>, no source caps, your data stays on your hardware. Docker setup in 2 minutes.</p>
+  <div style="margin-top:1.5rem;">
+    <a href="/deployment/" class="btn btn-primary">Deploy in 2 Minutes</a>
+    <a href="/production-guide/" class="btn btn-outline" style="margin-left:.5rem;border-color:var(--ok);color:var(--ok);">Save 20+ Hours</a>
+  </div>
+</section>
+
+<section>
+<h2>What Is Open Notebook</h2>
+<p>It's a full NotebookLM-style research workspace you run yourself — <strong>ingest PDFs, URLs, YouTube, audio, chat with documents, generate multi-speaker podcasts</strong> — using any AI model you choose instead of being locked to Gemini.</p>
+<p>Built by <a href="https://github.com/lfnovo/open-notebook">lfnovo</a>, <strong>31K+ GitHub stars</strong>, MIT licensed. The key difference from NotebookLM: a REST API on port 5055, editable transformation prompts, 1-4 speaker podcast profiles, and per-task model routing (cheap model for summaries, Claude for analysis, local Ollama for private docs).</p>
+
+<div class="callout">
+  <strong>Who this is for:</strong> Developers who already use NotebookLM but need more — more sources, more privacy, more model choice, more automation via API. Not a NotebookLM tutorial — a deployment and production guide.
+</div>
+</section>
+
+<section>
+<h2>Where to Start</h2>
+<div class="overview-grid">
+  <a href="/deployment/" class="overview-card">
+    <h3>Deployment</h3>
+    <p>Docker → Ollama → nginx + TLS → backup → multi-user. Copy-paste ready, 5 steps.</p>
+  </a>
+  <a href="/hardware/" class="overview-card">
+    <h3>Hardware Sizing</h3>
+    <p>From $5 VPS to RTX 4090. Three tiers with VRAM math. Stop guessing what GPU you need.</p>
+  </a>
+  <a href="/models/" class="overview-card">
+    <h3>Model Guide</h3>
+    <p>Best model combos for quality, speed, and cost. GPT-4o vs Claude vs local Ollama — benchmarked.</p>
+  </a>
+  <a href="/vs-notebooklm/" class="overview-card">
+    <h3>vs NotebookLM</h3>
+    <p>Honest 10-dimension comparison. Where Open Notebook wins. Where it doesn't.</p>
+  </a>
+  <a href="/faq/" class="overview-card">
+    <h3>FAQ</h3>
+    <p>Ollama OOM errors, embedding bugs, SurrealDB permissions, model selection — solved.</p>
+  </a>
+  <a href="/production-guide/" class="overview-card">
+    <h3>Production Manual</h3>
+    <p>Full deployment configs, 30+ error fixes, monitoring, CI/CD. PDF + Markdown, $19.</p>
+  </a>
+</div>
+</section>
+
+<section>
+<h2>Why Self-Host Your Document AI</h2>
+
+<div class="callout">
+  <h3>1. Your data never leaves your network</h3>
+  <p>With Ollama, Open Notebook processes everything on your hardware. For legal research, proprietary code, healthcare documents — this is a hard requirement. NotebookLM stores everything on Google's servers.</p>
+</div>
+
+<div class="callout">
+  <h3>2. 18+ AI providers. No vendor lock-in.</h3>
+  <p>OpenAI, Anthropic, Gemini, Mistral, DeepSeek, Ollama, LM Studio, Groq, xAI, and more — assign different models to different tasks. NotebookLM gives you Gemini. That's it.</p>
+</div>
+
+<div class="callout">
+  <h3>3. Cost flips at scale</h3>
+  <p>NotebookLM Plus costs ~$20/month/user. A 20-person team pays $400/month with Google seeing everything. Open Notebook with cloud APIs: $10-30/month total. With Ollama: $0 (just electricity).</p>
+</div>
+</section>
+
+<section>
+<h2>Open Notebook vs NotebookLM</h2>
+
+<div style="overflow-x:auto;">
+<table>
+  <thead>
+    <tr><th>Dimension</th><th>Open Notebook</th><th>Google NotebookLM</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Privacy</td><td style="color:var(--ok);">100% local possible</td><td>Data on Google servers</td></tr>
+    <tr><td>Setup time</td><td>2 min Docker → working</td><td style="color:var(--ok);">0 min — sign in, start</td></tr>
+    <tr><td>AI models</td><td style="color:var(--ok);">18+ providers</td><td>Gemini only</td></tr>
+    <tr><td>Source limits</td><td style="color:var(--ok);">No hard caps</td><td>50 sources, 500K words</td></tr>
+    <tr><td>API access</td><td style="color:var(--ok);">Full REST API</td><td>None</td></tr>
+    <tr><td>Cost at scale</td><td style="color:var(--ok);">$0-30/month</td><td>~$20/user/month</td></tr>
+    <tr><td>Citations</td><td>Basic references</td><td style="color:var(--ok);">Exact passages, highlights</td></tr>
+    <tr><td>Offline</td><td style="color:var(--ok);">Full offline (Ollama)</td><td>Internet required</td></tr>
+  </tbody>
+</table>
+</div>
+<p style="color:var(--muted);font-size:.85rem;"><a href="/vs-notebooklm/">Full 10-dimension comparison →</a></p>
+</section>
+
+<section>
+<h2>Quick Start</h2>
+<pre><code>mkdir open-notebook && cd open-notebook
+curl -o docker-compose.yml https://raw.githubusercontent.com/lfnovo/open-notebook/main/docker-compose.yml
+sed -i 's/change-me-to-a-secret-string/YOUR-ENCRYPTION-KEY/' docker-compose.yml
+docker compose up -d</code></pre>
+<p>Open <code>http://localhost:8502</code> — working in 2 minutes. <a href="/deployment/">Full deployment guide →</a></p>
+
+<div class="callout warn">
+  <strong>Common gotcha:</strong> If using Ollama inside Docker, the URL must be <code>http://ollama:11434</code> not <code>http://localhost:11434</code>. Localhost inside the container points to itself, not the Ollama container. <a href="/deployment/#step-2">Details in Step 2.</a>
+</div>
+</section>
+
+<section>
+<h2>FAQ</h2>
+
+<details>
+  <summary>What's the cheapest way to get started without a GPU?</summary>
+  <div class="faq-answer"><p>Use Groq (free tier) or OpenAI API. Open Notebook needs only 4 GB RAM — a $5/month DigitalOcean droplet runs it fine with cloud APIs.</p></div>
+</details>
+
+<details>
+  <summary>Which model combination gives the best balance of quality and cost?</summary>
+  <div class="faq-answer"><p><strong>Chat/Analysis:</strong> GPT-4o-mini or Claude Sonnet. <strong>Embeddings:</strong> text-embedding-3-small or qwen3-embedding (free, local). <strong>TTS:</strong> ElevenLabs. <strong>Zero-cost mode:</strong> Groq free tier + Ollama embeddings. <a href="/models/">Full model guide →</a></p></div>
+</details>
+
+<details>
+  <summary>Is Open Notebook production-ready?</summary>
+  <div class="faq-answer"><p>Yes, with the right setup. It's running in production at multiple companies for private document research. The Docker setup, nginx reverse proxy, and backup procedures in our <a href="/production-guide/">Production Manual</a> cover what you need. The main gaps are citations (not as good as NotebookLM) and multi-user isolation (still basic — use separate instances per team for now).</p></div>
+</details>
+
+<details>
+  <summary>How do I keep my data safe when upgrading?</summary>
+  <div class="faq-answer"><p>Your data lives in Docker volumes — not inside containers. <code>docker compose pull && docker compose up -d</code> upgrades safely. Always take a backup before major version bumps. <a href="/deployment/#step-4">Backup script here.</a></p></div>
+</details>
+</section>
+
+<section style="margin-top:3rem;text-align:center;">
+  <p style="color:var(--muted);font-size:1.05rem;">The free guides get you running. The <strong style="color:var(--text);">Production Manual</strong> keeps you running — full deploy configs, 30+ error fixes, monitoring, CI/CD.</p>
+  <a href="/production-guide/" class="btn btn-outline" style="margin-top:1rem;border-color:var(--ok);color:var(--ok);font-size:1rem;padding:.8rem 2rem;">Get the Production Manual — $19</a>
+</section>
+
+</main>
+
+<footer>
+  <p><a href="/">Open Notebook Guide</a> — independent community resource. Not affiliated with lfnovo or Google.</p>
+  <p style="margin-top:.5rem;">
+    <a href="/privacy/">Privacy</a> &middot;
+    <a href="/terms/">Terms</a> &middot;
+    <a href="/refunds/">Refunds</a>
+  </p>
+</footer>
+</body>
+</html>

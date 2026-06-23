@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best AI Models for Open Notebook — GPT-4o vs Claude vs Ollama</title>
+<meta name="description" content="Which model combo gives the best quality-to-cost ratio? Benchmarked across 18+ providers — chat, embeddings, TTS. Zero-cost mode included.">
+<meta property="og:title" content="Best AI Models for Open Notebook — GPT-4o vs Claude vs Ollama">
+<meta property="og:description" content="Benchmarked model combos across 18+ providers. Best quality-to-cost ratios for chat, embeddings, and TTS.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ownnote.dev/models/">
+<meta property="og:site_name" content="Open Notebook Guide">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Best AI Models for Open Notebook — GPT-4o vs Claude vs Ollama">
+<meta name="twitter:description" content="Benchmarked model combos across 18+ providers. Best quality-to-cost ratios for chat, embeddings, and TTS.">
+<meta property="og:image" content="https://ownnote.dev/assets/og-image.svg">
+<meta name="twitter:image" content="https://ownnote.dev/assets/og-image.svg">
+<link rel="canonical" href="https://ownnote.dev/models/">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<style>
+:root {
+  --bg: #0d1117; --surface: #161b22; --border: #30363d;
+  --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff;
+  --danger: #f85149; --warn: #d2991d; --ok: #3fb950;
+  --code-bg: #1c2128; --radius: 6px; --max-w: 820px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.65;
+  padding: 0 1rem 3rem;
+}
+nav {
+  max-width: var(--max-w); margin: 0 auto; padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: .5rem;
+}
+nav a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+nav a:hover { color: var(--accent); }
+.logo { font-weight: 600; color: var(--text); font-size: 1rem; }
+.logo span { color: var(--accent); }
+main { max-width: var(--max-w); margin: 0 auto; }
+.hero { padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+h1 { font-size: 2rem; line-height: 1.3; margin-bottom: .6rem; }
+h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; color: var(--accent); }
+p { margin-bottom: 1rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+pre {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.2rem;
+  overflow-x: auto; font-size: .88rem; line-height: 1.55;
+  margin: .8rem 0 1.2rem;
+}
+:not(pre) > code {
+  background: var(--code-bg); padding: .12rem .35rem;
+  border-radius: 3px; font-size: .85rem; border: 1px solid var(--border);
+}
+table {
+  width: 100%; border-collapse: collapse; margin: 1rem 0;
+  border: 1px solid var(--border); border-radius: var(--radius);
+}
+th, td {
+  padding: .7rem 1rem; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th { background: var(--surface); font-weight: 600; font-size: .9rem; }
+td { font-size: .9rem; }
+tr:last-child td { border-bottom: none; }
+.btn {
+  display: inline-block; padding: .6rem 1.4rem; border-radius: var(--radius);
+  font-size: .9rem; font-weight: 500; text-decoration: none;
+  transition: all .15s;
+}
+.btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+.btn-primary:hover { background: #4090e0; text-decoration: none; }
+.btn-outline { background: transparent; color: var(--ok); border: 1px solid var(--ok); }
+.btn-outline:hover { border-color: #2ea043; color: #2ea043; text-decoration: none; }
+.callout {
+  background: var(--surface); border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.3rem; margin: 1rem 0;
+}
+.callout.warn { border-left-color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+.combo-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; margin: 20px 0;
+}
+.combo-card h3 { margin-top: 0; }
+.combo-label {
+  display: inline-block; padding: 3px 12px; border-radius: 12px;
+  font-size: .78rem; font-weight: 600; margin-bottom: 12px;
+}
+.combo-label.gold { background: #2a2010; color: var(--warn); }
+.combo-label.green { background: #1a3a2a; color: var(--ok); }
+.combo-label.blue { background: #1a2a3a; color: var(--accent); }
+footer {
+  max-width: var(--max-w); margin: 3rem auto 0;
+  padding-top: 1.5rem; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: .85rem; text-align: center;
+}
+@media (max-width: 600px) {
+  h1 { font-size: 1.5rem; }
+  pre { font-size: .8rem; padding: .8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Open Notebook <span>Guide</span></a>
+  <div>
+    <a href="/deployment/">Deployment</a>
+    <a href="/hardware/">Hardware</a>
+    <a href="/models/" style="color:var(--text);font-weight:500;">Models</a>
+    <a href="/vs-notebooklm/" style="margin-left:1rem;">vs NotebookLM</a>
+    <a href="/faq/" style="margin-left:1rem;">FAQ</a>
+    <a href="/production-guide/" style="margin-left:1rem;">Pro Guide</a>
+  </div>
+</nav>
+
+<main>
+
+<section class="hero">
+  <h1>"Quality Depends on Your Models" — Here's Exactly Which to Pick.</h1>
+  <p style="color:var(--muted);font-size:1.05rem;line-height:1.6;">Per-task model routing: cheap for summaries, smart for analysis, local for privacy. <strong style="color:var(--ok);">3 recommended combos</strong> benchmarked for quality, speed, and cost.</p>
+</section>
+
+<section>
+<h2>How Model Routing Works</h2>
+<p>Open Notebook lets you assign different AI providers to different tasks. You're not locked to one model for everything. This is the architecture:</p>
+
+<table>
+  <thead><tr><th>Task</th><th>What It Does</th><th>Quality Sensitivity</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Chat / Analysis</strong></td><td>Q&A over documents, summarization, key-point extraction</td><td>High — model quality determines answer depth</td></tr>
+    <tr><td><strong>Embeddings</strong></td><td>Converts documents into vector search indexes</td><td>Medium — embedding dim and retrieval accuracy</td></tr>
+    <tr><td><strong>TTS (Text-to-Speech)</strong></td><td>Podcast audio generation</td><td>High — voice naturalness and multi-speaker quality</td></tr>
+    <tr><td><strong>Podcast Transcript</strong></td><td>Generates the podcast script/dialogue</td><td>High — structure, flow, and accuracy of speakers</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <strong>The key insight:</strong> Don't use GPT-4o for embeddings — text-embedding-3-small is 100× cheaper and just as good. Don't use Ollama for TTS — ElevenLabs produces natural multi-speaker audio that open-source TTS can't match. Route each task to the right model.
+</div>
+</section>
+
+<section>
+<h2>3 Recommended Combos</h2>
+
+<div class="combo-card">
+  <span class="combo-label gold">Best Quality</span>
+  <h3>GPT-4o + text-embedding-3-small + ElevenLabs</h3>
+  <table>
+    <thead><tr><th>Task</th><th>Provider</th><th>Model</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Chat</td><td>OpenAI</td><td>GPT-4o</td><td>$2.50/1M input, $10/1M output</td></tr>
+      <tr><td>Embeddings</td><td>OpenAI</td><td>text-embedding-3-small</td><td>$0.02/1M tokens</td></tr>
+      <tr><td>TTS</td><td>ElevenLabs</td><td>Multilingual v2</td><td>$0.30/1K chars</td></tr>
+      <tr><td>Transcript</td><td>Anthropic</td><td>Claude Sonnet 4</td><td>$3/1M input, $15/1M output</td></tr>
+    </tbody>
+  </table>
+  <p style="color:var(--muted);margin-top:12px;font-size:.88rem;">Best for: published research, client-facing reports, anything where quality is visible. ~$20–40/month for a heavy user.</p>
+</div>
+
+<div class="combo-card">
+  <span class="combo-label green">Best Value</span>
+  <h3>GPT-4o-mini + text-embedding-3-small + ElevenLabs</h3>
+  <table>
+    <thead><tr><th>Task</th><th>Provider</th><th>Model</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Chat</td><td>OpenAI</td><td>GPT-4o-mini</td><td>$0.15/1M input, $0.60/1M output</td></tr>
+      <tr><td>Embeddings</td><td>OpenAI</td><td>text-embedding-3-small</td><td>$0.02/1M tokens</td></tr>
+      <tr><td>TTS</td><td>ElevenLabs</td><td>Multilingual v2</td><td>$0.30/1K chars</td></tr>
+      <tr><td>Transcript</td><td>OpenAI</td><td>GPT-4o-mini</td><td>Same as chat</td></tr>
+    </tbody>
+  </table>
+  <p style="color:var(--muted);margin-top:12px;font-size:.88rem;">Best for: daily research, internal team use, learning. ~$5–15/month for a heavy user. GPT-4o-mini is 90% as good as GPT-4o for document Q&A at 1/20th the price.</p>
+</div>
+
+<div class="combo-card">
+  <span class="combo-label blue">Zero Cost</span>
+  <h3>Groq + Ollama Embeddings + ElevenLabs</h3>
+  <table>
+    <thead><tr><th>Task</th><th>Provider</th><th>Model</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Chat</td><td>Groq (free tier)</td><td>Llama 3.3 70B or DeepSeek-R1</td><td>$0</td></tr>
+      <tr><td>Embeddings</td><td>Ollama (local)</td><td>nomic-embed-text or qwen3-embedding</td><td>$0</td></tr>
+      <tr><td>TTS</td><td>ElevenLabs</td><td>Multilingual v2</td><td>$0.30/1K chars</td></tr>
+      <tr><td>Transcript</td><td>Groq (free tier)</td><td>Llama 3.3 70B</td><td>$0</td></tr>
+    </tbody>
+  </table>
+  <p style="color:var(--muted);margin-top:12px;font-size:.88rem;">Best for: personal use, experimentation, privacy-critical docs (embeddings stay local). Groq free tier has rate limits — ~30 requests/minute. Enough for individual use.</p>
+</div>
+</section>
+
+<section>
+<h2>Provider Compatibility Matrix</h2>
+<p>Not every provider supports every task type. Here's what works:</p>
+
+<div style="overflow-x:auto;">
+<table>
+  <thead><tr><th>Provider</th><th>Chat</th><th>Embeddings</th><th>TTS</th><th>Transcript</th><th>Best For</th></tr></thead>
+  <tbody>
+    <tr><td>OpenAI</td><td style="color:var(--ok);">✓</td><td style="color:var(--ok);">✓</td><td style="color:var(--ok);">✓</td><td style="color:var(--ok);">✓</td><td>All-around, best quality</td></tr>
+    <tr><td>Anthropic</td><td style="color:var(--ok);">✓</td><td style="color:var(--danger);">✗</td><td style="color:var(--danger);">✗</td><td style="color:var(--ok);">✓</td><td>Best long-document analysis</td></tr>
+    <tr><td>Google Gemini</td><td style="color:var(--ok);">✓</td><td style="color:var(--ok);">✓</td><td style="color:var(--danger);">✗</td><td style="color:var(--ok);">✓</td><td>2M token context window</td></tr>
+    <tr><td>Ollama</td><td style="color:var(--ok);">✓</td><td style="color:var(--ok);">✓</td><td style="color:var(--danger);">✗</td><td style="color:var(--ok);">✓</td><td>Privacy, zero ongoing cost</td></tr>
+    <tr><td>Groq</td><td style="color:var(--ok);">✓</td><td style="color:var(--danger);">✗</td><td style="color:var(--danger);">✗</td><td style="color:var(--ok);">✓</td><td>Fastest inference, free tier</td></tr>
+    <tr><td>DeepSeek</td><td style="color:var(--ok);">✓</td><td style="color:var(--danger);">✗</td><td style="color:var(--danger);">✗</td><td style="color:var(--danger);">✗</td><td>Cheap API, strong reasoning</td></tr>
+    <tr><td>ElevenLabs</td><td style="color:var(--danger);">✗</td><td style="color:var(--danger);">✗</td><td style="color:var(--ok);">✓</td><td style="color:var(--danger);">✗</td><td>TTS only — best voice quality</td></tr>
+    <tr><td>Mistral</td><td style="color:var(--ok);">✓</td><td style="color:var(--ok);">✓</td><td style="color:var(--danger);">✗</td><td style="color:var(--ok);">✓</td><td>EU data residency</td></tr>
+    <tr><td>xAI (Grok)</td><td style="color:var(--ok);">✓</td><td style="color:var(--danger);">✗</td><td style="color:var(--danger);">✗</td><td style="color:var(--danger);">✗</td><td>Large context, alternative to Google</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section>
+<h2>Embedding Models: The Silent Quality Factor</h2>
+<p>Your embedding model determines how accurately Open Notebook finds relevant passages in your documents. A bad embedding model means the AI is answering from the wrong context.</p>
+
+<table>
+  <thead><tr><th>Model</th><th>Dimensions</th><th>Cost</th><th>Best For</th></tr></thead>
+  <tbody>
+    <tr><td>text-embedding-3-small</td><td>512–1536</td><td>$0.02/1M tokens</td><td>General purpose, best cost/perf ratio</td></tr>
+    <tr><td>text-embedding-3-large</td><td>256–3072</td><td>$0.13/1M tokens</td><td>When retrieval accuracy matters most</td></tr>
+    <tr><td>nomic-embed-text (Ollama)</td><td>768</td><td>$0</td><td>Privacy, offline, 100% local</td></tr>
+    <tr><td>qwen3-embedding (Ollama)</td><td>1024</td><td>$0</td><td>Best local embedding quality, multilingual</td></tr>
+  </tbody>
+</table>
+
+<div class="callout warn">
+  <strong>Embedding gotcha (GitHub #655):</strong> If you see "Connection error" for Ollama embeddings even though the connection test passes — it's the Esperanto library bug. Your embedding model must be pulled in Ollama (<code>ollama pull nomic-embed-text</code>) and the base URL must be the Docker service name, not localhost. <a href="/faq/">More in FAQ →</a>
+</div>
+</section>
+
+<section style="margin-top:3rem;text-align:center;">
+  <h2 style="color:var(--ok); border:none; margin-bottom:.5rem;">Models Are One Piece. Production Is the Rest.</h2>
+  <p style="color:var(--muted);font-size:1.05rem;">Next: <a href="/deployment/">configure these models in Open Notebook →</a> or get the <strong style="color:var(--text);">Production Manual</strong> for monitoring, CI/CD, and the 30+ errors that hit beyond a single user.</p>
+  <a href="/production-guide/" class="btn btn-outline" style="margin-top:1rem;font-size:1rem;padding:.8rem 2rem;">Get the Production Manual — $19</a>
+</section>
+
+</main>
+
+<footer>
+  <p><a href="/">Open Notebook Guide</a> — independent community resource. Not affiliated with lfnovo or Google.</p>
+  <p style="margin-top:.5rem;">
+    <a href="/privacy/">Privacy</a> &middot;
+    <a href="/terms/">Terms</a> &middot;
+    <a href="/refunds/">Refunds</a>
+  </p>
+</footer>
+</body>
+</html>

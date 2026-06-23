@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deploy Open Notebook in 5 Steps — Docker to Production</title>
+<meta name="description" content="From docker compose up to TLS + multi-user production. Every config copy-paste ready, one afternoon to a working self-hosted NotebookLM.">
+<meta property="og:title" content="Deploy Open Notebook in 5 Steps — Docker to Production">
+<meta property="og:description" content="From docker compose up to TLS + multi-user production. Every config copy-paste ready.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ownnote.dev/deployment/">
+<meta property="og:site_name" content="Open Notebook Guide">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Deploy Open Notebook in 5 Steps — Docker to Production">
+<meta name="twitter:description" content="From docker compose up to TLS + multi-user production. Every config copy-paste ready.">
+<meta property="og:image" content="https://ownnote.dev/assets/og-image.svg">
+<meta name="twitter:image" content="https://ownnote.dev/assets/og-image.svg">
+<link rel="canonical" href="https://ownnote.dev/deployment/">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<style>
+:root {
+  --bg: #0d1117; --surface: #161b22; --border: #30363d;
+  --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff;
+  --danger: #f85149; --warn: #d2991d; --ok: #3fb950;
+  --code-bg: #1c2128; --radius: 6px; --max-w: 820px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.65;
+  padding: 0 1rem 3rem;
+}
+nav {
+  max-width: var(--max-w); margin: 0 auto; padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: .5rem;
+}
+nav a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+nav a:hover { color: var(--accent); }
+.logo { font-weight: 600; color: var(--text); font-size: 1rem; }
+.logo span { color: var(--accent); }
+main { max-width: var(--max-w); margin: 0 auto; }
+.hero { padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+h1 { font-size: 2rem; line-height: 1.3; margin-bottom: .6rem; }
+h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; color: var(--accent); }
+p { margin-bottom: 1rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+pre {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.2rem;
+  overflow-x: auto; font-size: .88rem; line-height: 1.55;
+  margin: .8rem 0 1.2rem; position: relative;
+}
+:not(pre) > code {
+  background: var(--code-bg); padding: .12rem .35rem;
+  border-radius: 3px; font-size: .85rem; border: 1px solid var(--border);
+}
+.btn {
+  display: inline-block; padding: .6rem 1.4rem; border-radius: var(--radius);
+  font-size: .9rem; font-weight: 500; text-decoration: none;
+  transition: all .15s;
+}
+.btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+.btn-primary:hover { background: #4090e0; text-decoration: none; }
+.btn-outline { background: transparent; color: var(--ok); border: 1px solid var(--ok); }
+.btn-outline:hover { border-color: #2ea043; color: #2ea043; text-decoration: none; }
+.callout {
+  background: var(--surface); border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.3rem; margin: 1rem 0;
+}
+.callout.warn { border-left-color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+.overview-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px; margin: 24px 0;
+}
+.overview-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px;
+  text-decoration: none; display: block; transition: border-color .15s;
+}
+.overview-card:hover { border-color: var(--accent); text-decoration: none; }
+.overview-card h3 { color: var(--accent); margin: 0 0 6px; font-size: .95rem; }
+.overview-card p { color: var(--muted); font-size: .82rem; margin: 0; }
+.step-number {
+  display: inline-block; background: var(--accent); color: #fff;
+  border-radius: 50%; width: 28px; height: 28px; line-height: 28px;
+  text-align: center; font-size: .85rem; font-weight: 600;
+  margin-right: .5rem; flex-shrink: 0;
+}
+pre code { font-family: 'Roboto Mono', 'Fira Code', monospace; }
+footer {
+  max-width: var(--max-w); margin: 3rem auto 0;
+  padding-top: 1.5rem; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: .85rem; text-align: center;
+}
+@media (max-width: 600px) {
+  h1 { font-size: 1.5rem; }
+  pre { font-size: .8rem; padding: .8rem; }
+  .overview-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Open Notebook <span>Guide</span></a>
+  <div>
+    <a href="/deployment/" style="color:var(--text);font-weight:500;">Deployment</a>
+    <a href="/hardware/" style="margin-left:1rem;">Hardware</a>
+    <a href="/models/" style="margin-left:1rem;">Models</a>
+    <a href="/vs-notebooklm/" style="margin-left:1rem;">vs NotebookLM</a>
+    <a href="/faq/" style="margin-left:1rem;">FAQ</a>
+    <a href="/production-guide/" style="margin-left:1rem;">Pro Guide</a>
+  </div>
+</nav>
+
+<main>
+
+<section class="hero">
+  <h1>5 Steps From docker compose up to Production. No Scattered Docs. No Guesswork.</h1>
+  <p style="color:var(--muted);font-size:1.05rem;line-height:1.6;">Every config block is copy-paste ready. <strong style="color:var(--ok);">Saves 15+ hours</strong> of forum-scrolling and trial-and-error — one afternoon to a working self-hosted NotebookLM.</p>
+  <div style="margin-top:1.5rem;">
+    <a href="#steps" class="btn btn-primary">View Steps</a>
+    <a href="/production-guide/" class="btn btn-outline" style="margin-left:.5rem;">Save 15+ Hours — Pro Manual</a>
+  </div>
+</section>
+
+<section>
+<h2>What You'll Build</h2>
+<p>By the end of this guide, you'll have Open Notebook running behind nginx with TLS, persistent backups, and multi-user access — ready for a small team.</p>
+
+<div class="overview-grid">
+  <a href="#step-1" class="overview-card">
+    <h3>1. Docker Quick Start</h3>
+    <p>docker compose up — working in 2 minutes</p>
+  </a>
+  <a href="#step-2" class="overview-card">
+    <h3>2. Connect AI Provider</h3>
+    <p>Ollama local or cloud API — 18+ options</p>
+  </a>
+  <a href="#step-3" class="overview-card">
+    <h3>3. nginx + TLS</h3>
+    <p>Reverse proxy + Let's Encrypt — full config</p>
+  </a>
+  <a href="#step-4" class="overview-card">
+    <h3>4. Backup & Storage</h3>
+    <p>Persistent volumes + automated backup script</p>
+  </a>
+  <a href="#step-5" class="overview-card">
+    <h3>5. Multi-User Setup</h3>
+    <p>Passwords, basic auth, team isolation</p>
+  </a>
+</div>
+</section>
+
+<section id="steps">
+<h2 id="step-1"><span class="step-number">1</span> Docker Quick Start</h2>
+<p>Two minutes to a running instance. This gets the app + database up. AI models come in Step 2.</p>
+
+<pre><code>mkdir open-notebook && cd open-notebook
+curl -o docker-compose.yml https://raw.githubusercontent.com/lfnovo/open-notebook/main/docker-compose.yml
+sed -i 's/change-me-to-a-secret-string/YOUR-ENCRYPTION-KEY/' docker-compose.yml
+docker compose up -d
+docker compose ps</code></pre>
+
+<p>Wait 15–20 seconds for SurrealDB to initialize. Open <code>http://localhost:8502</code> — you should see the Open Notebook UI.</p>
+
+<div class="callout warn">
+  <strong>Docker not installed?</strong> <code>curl -fsSL https://get.docker.com | sh</code> on Linux. For Windows/macOS, install <a href="https://docs.docker.com/desktop/">Docker Desktop</a>. This guide assumes Docker Engine 24+ and Compose v2.
+</div>
+
+<p>What just happened: <code>docker compose up -d</code> started two containers — the Open Notebook app (port 8502 GUI, 5055 API) and SurrealDB (port 8000). Data is stored in Docker volumes, not inside the container filesystem.</p>
+</section>
+
+<section>
+<h2 id="step-2"><span class="step-number">2</span> Connect an AI Provider</h2>
+<p>Open Notebook needs at least one AI provider for chat, embeddings, and TTS. You have two paths:</p>
+
+<h3>Option A: Ollama (free, local, private)</h3>
+<p>Add this to your <code>docker-compose.yml</code> under <code>services:</code>:</p>
+
+<pre><code>ollama:
+  image: ollama/ollama:latest
+  ports:
+    - "11434:11434"
+  volumes:
+    - ./ollama-data:/root/.ollama
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+  pull_policy: always</code></pre>
+
+<p>Pull your first model:</p>
+<pre><code>docker exec -it open-notebook-ollama-1 ollama pull gpt-oss:20b</code></pre>
+
+<p>In the Open Notebook UI, go to <strong>Settings → API Keys → Add Provider → Ollama</strong>. Set Base URL to:</p>
+
+<pre><code>http://ollama:11434</code></pre>
+
+<div class="callout warn">
+  <strong>Critical:</strong> Use <code>http://ollama:11434</code>, NOT <code>http://localhost:11434</code>. Inside a Docker container, localhost points to the container itself, not the Ollama container. This is the #1 deployment gotcha (<a href="https://github.com/lfnovo/open-notebook/issues/708" target="_blank" rel="noopener">GitHub #708</a>, <a href="https://github.com/lfnovo/open-notebook/discussions/88" target="_blank" rel="noopener">Discussions #88</a>).
+</div>
+
+<h3>Option B: Cloud API (no GPU needed)</h3>
+<p>Get an API key from any supported provider, then paste it in <strong>Settings → API Keys</strong>. The $5/month VPS works fine with cloud APIs — no GPU required.</p>
+
+<p>Recommended starter combo (<a href="/models/">full model guide →</a>):</p>
+<pre><code>Chat:     OpenAI GPT-4o-mini    (~$0.15/1M input tokens)
+Embed:    text-embedding-3-small (~$0.02/1M tokens)
+TTS:      ElevenLabs            (~$0.30/1K chars)</code></pre>
+</section>
+
+<section>
+<h2 id="step-3"><span class="step-number">3</span> Reverse Proxy with nginx + TLS</h2>
+<p>Never expose ports 8502 or 5055 directly to the internet. Put nginx in front with HTTPS.</p>
+
+<pre><code>server {
+    listen 80;
+    server_name notebook.yourdomain.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name notebook.yourdomain.com;
+
+    ssl_certificate /etc/letsencrypt/live/notebook.yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/notebook.yourdomain.com/privkey.pem;
+
+    location / {
+        proxy_pass http://127.0.0.1:8502;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:5055/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_read_timeout 300s;
+    }
+}</code></pre>
+
+<p>Get a free TLS certificate with Let's Encrypt:</p>
+<pre><code>sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d notebook.yourdomain.com</code></pre>
+
+<p>Set the environment variable in your <code>docker-compose.yml</code>:</p>
+<pre><code>environment:
+  - API_URL=https://notebook.yourdomain.com</code></pre>
+
+<div class="callout">
+  <strong>Pro tip:</strong> The <code>/api/</code> location block maps to port 5055 with a 300s read timeout — podcast generation can take minutes. Without this timeout, nginx will return 504 errors on long audio generations.
+</div>
+</section>
+
+<section>
+<h2 id="step-4"><span class="step-number">4</span> Persistent Storage & Backup</h2>
+<p>Your data lives in two directories — not inside containers. <code>docker compose down</code> won't touch them.</p>
+
+<pre><code>./surreal-data/   →  SurrealDB (notebooks, notes, metadata)
+./app-data/       →  Uploaded files, processed documents</code></pre>
+
+<p><strong>Backup script</strong> — run this before upgrades or on a cron:</p>
+<pre><code>#!/bin/bash
+BACKUP_DIR="/backups/open-notebook/$(date +%Y-%m-%d)"
+mkdir -p "$BACKUP_DIR"
+docker compose stop
+tar -czf "$BACKUP_DIR/surreal-data.tar.gz" ./surreal-data/
+tar -czf "$BACKUP_DIR/app-data.tar.gz" ./app-data/
+docker compose up -d
+echo "Backup complete: $BACKUP_DIR"</code></pre>
+
+<p>To restore: stop the containers, extract the tarballs back to the same directories, then <code>docker compose up -d</code>.</p>
+
+<div class="callout ok">
+  <strong>Upgrades are safe:</strong> <code>docker compose pull && docker compose up -d</code> pulls new images without touching your volumes. Always take a backup before major version bumps.
+</div>
+</section>
+
+<section>
+<h2 id="step-5"><span class="step-number">5</span> Multi-User Setup</h2>
+<p>Open Notebook doesn't have built-in multi-tenancy yet, but you can secure it for a small team:</p>
+
+<h3>Instance-level password</h3>
+<p>Set in <code>docker-compose.yml</code> environment:</p>
+<pre><code>OPEN_NOTEBOOK_PASSWORD=your-shared-password</code></pre>
+
+<h3>nginx basic auth per user</h3>
+<pre><code>sudo htpasswd -c /etc/nginx/.htpasswd user1
+sudo htpasswd /etc/nginx/.htpasswd user2</code></pre>
+
+<p>Add to your nginx config:</p>
+<pre><code>location / {
+    auth_basic "Open Notebook";
+    auth_basic_user_file /etc/nginx/.htpasswd;
+    proxy_pass http://127.0.0.1:8502;
+    # ... rest of proxy settings
+}</code></pre>
+
+<h3>Stronger isolation (recommended for teams)</h3>
+<p>For production team use, run separate docker-compose stacks per team — each with its own SurrealDB instance and data directory. This prevents cross-team data leakage entirely.</p>
+
+<div class="callout">
+  <strong>Firewall reminder:</strong> Always bind to 127.0.0.1. Never expose ports 8502 or 5055 to 0.0.0.0. Use <code>sudo ufw allow 443/tcp && sudo ufw allow 80/tcp && sudo ufw enable</code> to only open nginx ports.
+</div>
+</section>
+
+<section>
+<h2>FAQ: Deployment Troubleshooting</h2>
+
+<details style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem;margin:.5rem 0;">
+<summary style="cursor:pointer;font-weight:500;">localhost:8502 works but Ollama embeddings fail with "Connection error"</summary>
+<div style="padding-top:.6rem;color:var(--muted);font-size:.93rem;">
+  <p>This is a known bug (<a href="https://github.com/lfnovo/open-notebook/issues/655" target="_blank" rel="noopener">GitHub #655</a>): the Esperanto embedding library ignores the <code>base_url</code> setting for Ollama. The connection test passes but actual embeddings fail. Fix: ensure your Ollama URL in Settings is exactly <code>http://ollama:11434</code> (Docker service name, not localhost), and the embedding model is pulled in Ollama with <code>ollama pull nomic-embed-text</code>.</p>
+</div>
+</details>
+
+<details style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem;margin:.5rem 0;">
+<summary style="cursor:pointer;font-weight:500;">Ollama runs out of memory (OOM) on my GPU</summary>
+<div style="padding-top:.6rem;color:var(--muted);font-size:.93rem;">
+  <p>Open Notebook v1.8+ defaults <code>num_ctx</code> to 8192 (down from 128000) specifically to prevent this. If you manually raised it, lower it back. Rule of thumb: 1 GB VRAM per ~2048 context tokens at 7B parameters. A 20B model with 8192 ctx needs ~12 GB VRAM. If you have 8 GB, stick to 7B models or reduce context to 4096.</p>
+</div>
+</details>
+
+<details style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem;margin:.5rem 0;">
+<summary style="cursor:pointer;font-weight:500;">SurrealDB "Permission denied" on Linux</summary>
+<div style="padding-top:.6rem;color:var(--muted);font-size:.93rem;">
+  <p>The SurrealDB container runs as root by default. If you're mounting a local directory for <code>./surreal-data/</code>, ensure it's writable: <code>sudo chown -R 1000:1000 ./surreal-data/</code>. Or add <code>user: root</code> to the SurrealDB service in docker-compose.yml.</p>
+</div>
+</details>
+
+<details style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem;margin:.5rem 0;">
+<summary style="cursor:pointer;font-weight:500;">Can I run this without Docker?</summary>
+<div style="padding-top:.6rem;color:var(--muted);font-size:.93rem;">
+  <p>Not recommended. Open Notebook depends on SurrealDB, which is tightly coupled in the docker-compose setup. Manual install requires: Python 3.11+, SurrealDB binary, pdm for dependency management, and manual config of all environment variables. The Docker path is the supported path — the repo's README and all community guides assume Docker.</p>
+</div>
+</details>
+</section>
+
+<section style="margin-top:3rem;text-align:center;">
+  <h2 style="color:var(--ok); border:none; margin-bottom:.5rem;">Save 15+ Hours</h2>
+  <p style="color:var(--muted);font-size:1.05rem;">The free guides get you running. The <strong style="color:var(--text);">Production Manual</strong> keeps you running — full deploy configs, 30+ error fixes, monitoring, CI/CD.</p>
+  <a href="/production-guide/" class="btn btn-outline" style="margin-top:1rem;font-size:1rem;padding:.8rem 2rem;">Get the Production Manual — $19</a>
+</section>
+
+</main>
+
+<footer>
+  <p><a href="/">Open Notebook Guide</a> — independent community resource. Not affiliated with lfnovo or Google.</p>
+  <p style="margin-top:.5rem;">
+    <a href="/privacy/">Privacy</a> &middot;
+    <a href="/terms/">Terms</a> &middot;
+    <a href="/refunds/">Refunds</a>
+  </p>
+</footer>
+</body>
+</html>

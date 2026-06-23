@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Notebook FAQ — Setup Errors, Costs, Security, and More</title>
+<meta name="description" content="Ollama OOM errors, embedding connection bugs, model selection, SurrealDB permissions — solved. The answers you couldn't find in the official docs.">
+<meta property="og:title" content="Open Notebook FAQ — Setup Errors, Costs, Security, and More">
+<meta property="og:description" content="Ollama OOM errors, embedding bugs, SurrealDB permissions, model selection — solved with concrete fixes.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ownnote.dev/faq/">
+<meta property="og:site_name" content="Open Notebook Guide">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Open Notebook FAQ — Setup Errors, Costs, Security, and More">
+<meta name="twitter:description" content="Ollama OOM errors, embedding bugs, SurrealDB permissions, model selection — solved with concrete fixes.">
+<meta property="og:image" content="https://ownnote.dev/assets/og-image.svg">
+<meta name="twitter:image" content="https://ownnote.dev/assets/og-image.svg">
+<link rel="canonical" href="https://ownnote.dev/faq/">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<style>
+:root {
+  --bg: #0d1117; --surface: #161b22; --border: #30363d;
+  --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff;
+  --danger: #f85149; --warn: #d2991d; --ok: #3fb950;
+  --code-bg: #1c2128; --radius: 6px; --max-w: 820px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.65;
+  padding: 0 1rem 3rem;
+}
+nav {
+  max-width: var(--max-w); margin: 0 auto; padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: .5rem;
+}
+nav a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+nav a:hover { color: var(--accent); }
+.logo { font-weight: 600; color: var(--text); font-size: 1rem; }
+.logo span { color: var(--accent); }
+main { max-width: var(--max-w); margin: 0 auto; }
+.hero { padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+h1 { font-size: 2rem; line-height: 1.3; margin-bottom: .6rem; }
+h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 1px solid var(--border); }
+p { margin-bottom: 1rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+pre {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.2rem;
+  overflow-x: auto; font-size: .88rem; line-height: 1.55;
+  margin: .8rem 0 1.2rem;
+}
+:not(pre) > code {
+  background: var(--code-bg); padding: .12rem .35rem;
+  border-radius: 3px; font-size: .85rem; border: 1px solid var(--border);
+}
+.btn {
+  display: inline-block; padding: .6rem 1.4rem; border-radius: var(--radius);
+  font-size: .9rem; font-weight: 500; text-decoration: none;
+  transition: all .15s;
+}
+.btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+.btn-primary:hover { background: #4090e0; text-decoration: none; }
+.btn-outline { background: transparent; color: var(--ok); border: 1px solid var(--ok); }
+.btn-outline:hover { border-color: #2ea043; color: #2ea043; text-decoration: none; }
+.callout {
+  background: var(--surface); border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.3rem; margin: 1rem 0;
+}
+.callout.warn { border-left-color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+details {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: .8rem 1rem; margin: .5rem 0;
+}
+details summary { cursor: pointer; font-weight: 500; }
+details[open] { border-color: var(--accent); }
+.faq-answer { padding-top: .6rem; color: var(--muted); font-size: .93rem; }
+.faq-answer p { margin-bottom: 10px; }
+.faq-answer p:last-child { margin-bottom: 0; }
+footer {
+  max-width: var(--max-w); margin: 3rem auto 0;
+  padding-top: 1.5rem; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: .85rem; text-align: center;
+}
+@media (max-width: 600px) {
+  h1 { font-size: 1.5rem; }
+  pre { font-size: .8rem; padding: .8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Open Notebook <span>Guide</span></a>
+  <div>
+    <a href="/deployment/">Deployment</a>
+    <a href="/hardware/">Hardware</a>
+    <a href="/models/">Models</a>
+    <a href="/vs-notebooklm/">vs NotebookLM</a>
+    <a href="/faq/" style="color:var(--text);font-weight:500;">FAQ</a>
+    <a href="/production-guide/" style="margin-left:1rem;">Pro Guide</a>
+  </div>
+</nav>
+
+<main>
+
+<section class="hero">
+  <h1>The Questions the Official Docs Don't Answer.</h1>
+  <p style="color:var(--muted);font-size:1.05rem;line-height:1.6;">8 FAQs sourced from GitHub issues, Reddit threads, and real deployment experience. <strong style="color:var(--ok);">Concrete fixes, not theory.</strong></p>
+</section>
+
+<section>
+<h2>Setup & Errors</h2>
+
+<details>
+  <summary>What's the cheapest way to get started without a GPU?</summary>
+  <div class="faq-answer">
+    <p>Use Groq (free tier) or OpenAI API. Open Notebook needs only 4 GB RAM — a <strong>$5/month DigitalOcean droplet</strong> or Hetzner CX22 runs it fine with cloud APIs.</p>
+    <p>Groq's free tier gives you ~30 requests/minute to Llama 3.3 70B and DeepSeek-R1. Fast enough for individual use. Add <code>nomic-embed-text</code> via Ollama for free local embeddings, or use <code>text-embedding-3-small</code> at $0.02/1M tokens. TTS through ElevenLabs adds ~$5/month for occasional podcasts.</p>
+    <p><a href="/models/">Full model cost comparison →</a></p>
+  </div>
+</details>
+
+<details>
+  <summary>Ollama connection test passes but embeddings fail with "Connection error"</summary>
+  <div class="faq-answer">
+    <p>This is a known bug in the Esperanto embedding library (<a href="https://github.com/lfnovo/open-notebook/issues/655" target="_blank" rel="noopener">GitHub #655</a>) — it ignores the <code>base_url</code> setting for Ollama embeddings.</p>
+    <p><strong>Fix:</strong></p>
+    <ol style="margin-left:1.2rem;margin-bottom:10px;">
+      <li>Ensure the embedding model is actually pulled: <code>docker exec -it open-notebook-ollama-1 ollama pull nomic-embed-text</code></li>
+      <li>In Settings → API Keys, set the Ollama base URL to <code>http://ollama:11434</code> (Docker service name, NOT localhost)</li>
+      <li>Restart Open Notebook: <code>docker compose restart open-notebook</code></li>
+    </ol>
+  </div>
+</details>
+
+<details>
+  <summary>Ollama runs out of memory (OOM) on my GPU</summary>
+  <div class="faq-answer">
+    <p>Open Notebook v1.8+ defaults <code>num_ctx</code> to <strong>8192</strong> (down from 128000) specifically to prevent OOM on consumer GPUs. If you raised it, lower it back.</p>
+    <p><strong>Rule of thumb:</strong> 1 GB VRAM per ~2048 context tokens at 7B parameters.</p>
+    <pre><code>VRAM ≈ (params_in_B × 0.5) + (num_ctx / 2048) × (params_in_B / 7) GB</code></pre>
+    <p>Example: 7B @ 8192 ctx → 7.5 GB. 20B @ 8192 ctx → 18 GB. 7B @ 128K ctx → 64 GB.</p>
+    <p>If you have 8 GB VRAM: stick to 7B models, keep ctx &le; 8192. <a href="/hardware/">Hardware sizing guide →</a></p>
+  </div>
+</details>
+
+<details>
+  <summary>SurrealDB "Permission denied" on Linux</summary>
+  <div class="faq-answer">
+    <p>The SurrealDB container runs as root by default. If you're mounting a local directory, permissions must match:</p>
+    <pre><code>sudo chown -R 1000:1000 ./surreal-data/</code></pre>
+    <p>Or add <code>user: root</code> to the SurrealDB service in docker-compose.yml.</p>
+  </div>
+</details>
+
+<details>
+  <summary>How do I expose Open Notebook to the internet safely?</summary>
+  <div class="faq-answer">
+    <p>Never expose ports 8502 or 5055 directly. The safe path:</p>
+    <ol style="margin-left:1.2rem;margin-bottom:10px;">
+      <li>Set <code>OPEN_NOTEBOOK_PASSWORD</code> as an instance-level password</li>
+      <li>Put nginx in front with Let's Encrypt TLS</li>
+      <li>UFW: only allow 80 and 443</li>
+      <li>Bind everything to 127.0.0.1 — only nginx faces the internet</li>
+    </ol>
+    <p><a href="/deployment/#step-3">Full nginx + TLS config →</a></p>
+  </div>
+</details>
+</section>
+
+<section>
+<h2>Models & Quality</h2>
+
+<details>
+  <summary>Which model combination gives the best quality-to-cost ratio?</summary>
+  <div class="faq-answer">
+    <p><strong>Best value combo:</strong> GPT-4o-mini for chat ($0.15/1M input) + text-embedding-3-small for embeddings ($0.02/1M) + ElevenLabs for TTS ($0.30/1K chars).</p>
+    <p>GPT-4o-mini is ~90% as good as GPT-4o for document Q&A at 1/20th the price. A heavy user (200 docs, 1K queries/month) spends ~$10–20/month with this combo.</p>
+    <p><strong>Zero-cost mode:</strong> Groq free tier (Llama 3.3 70B) + Ollama nomic-embed-text (free local) + ElevenLabs for TTS (the only paid piece, ~$5/month). <a href="/models/">Full model guide →</a></p>
+  </div>
+</details>
+
+<details>
+  <summary>Is Open Notebook good enough for academic research?</summary>
+  <div class="faq-answer">
+    <p><strong>For literature review and synthesis: yes.</strong> Upload papers, ask questions across them, generate summaries — works well with GPT-4o or Claude Sonnet.</p>
+    <p><strong>For exact citations and writing: no.</strong> Open Notebook's citation system gives approximate source references, not exact paragraph-level highlighting. NotebookLM is significantly better for "which sentence in which paper said this." If you need publication-grade citations, use NotebookLM for the citation work and Open Notebook for large-scale document processing.</p>
+    <p><a href="/vs-notebooklm/">Full comparison →</a></p>
+  </div>
+</details>
+</section>
+
+<section>
+<h2>Maintenance & Upgrades</h2>
+
+<details>
+  <summary>How do I upgrade Open Notebook without losing my data?</summary>
+  <div class="faq-answer">
+    <p>Your data lives in Docker volumes, not inside containers. Upgrades are safe:</p>
+    <pre><code>docker compose pull
+docker compose up -d</code></pre>
+    <p>This pulls the latest images and recreates containers. Volumes (<code>./surreal-data/</code>, <code>./app-data/</code>) are untouched.</p>
+    <p><strong>Always take a backup before major version bumps:</strong> <a href="/deployment/#step-4">Backup script here.</a> SurrealDB schema changes between major versions can require manual migration — the <a href="/production-guide/">Production Manual</a> covers this in detail.</p>
+  </div>
+</details>
+</section>
+
+<section style="margin-top:3rem;text-align:center;">
+  <h2 style="color:var(--ok); border:none; margin-bottom:.5rem;">Still Have Questions?</h2>
+  <p style="color:var(--muted);font-size:1.05rem;">The <strong style="color:var(--text);">Production Manual</strong> goes deeper — 30+ error fixes with exact solutions, CI/CD templates, and monitoring setup.</p>
+  <a href="/production-guide/" class="btn btn-outline" style="margin-top:1rem;font-size:1rem;padding:.8rem 2rem;">Get the Production Manual — $19</a>
+</section>
+
+</main>
+
+<footer>
+  <p><a href="/">Open Notebook Guide</a> — independent community resource. Not affiliated with lfnovo or Google.</p>
+  <p style="margin-top:.5rem;">
+    <a href="/privacy/">Privacy</a> &middot;
+    <a href="/terms/">Terms</a> &middot;
+    <a href="/refunds/">Refunds</a>
+  </p>
+</footer>
+</body>
+</html>

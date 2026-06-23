@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — Open Notebook Production Manual</title>
+<meta name="description" content="One price. One product. PDF + Markdown, free updates for life.">
+<meta property="og:title" content="Pricing — Open Notebook Production Manual">
+<meta property="og:description" content="One price. One product. PDF + Markdown, free updates for life.">
+<meta property="og:type" content="product">
+<meta property="og:url" content="https://ownnote.dev/pricing/">
+<meta property="og:site_name" content="Open Notebook Guide">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pricing — Open Notebook Production Manual">
+<meta name="twitter:description" content="One price. One product. PDF + Markdown, free updates for life.">
+<meta property="og:image" content="https://ownnote.dev/assets/og-image.svg">
+<meta name="twitter:image" content="https://ownnote.dev/assets/og-image.svg">
+<link rel="canonical" href="https://ownnote.dev/pricing/">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<style>
+:root {
+  --bg: #0d1117; --surface: #161b22; --border: #30363d;
+  --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff;
+  --danger: #f85149; --warn: #d2991d; --ok: #3fb950;
+  --code-bg: #1c2128; --radius: 6px; --max-w: 820px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.65;
+  padding: 0 1rem 3rem;
+}
+nav {
+  max-width: var(--max-w); margin: 0 auto; padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: .5rem;
+}
+nav a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+nav a:hover { color: var(--accent); }
+.logo { font-weight: 600; color: var(--text); font-size: 1rem; }
+.logo span { color: var(--accent); }
+main { max-width: var(--max-w); margin: 0 auto; }
+h1 { font-size: 2rem; line-height: 1.3; margin-bottom: .6rem; text-align: center; }
+h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 1px solid var(--border); }
+p { margin-bottom: 1rem; text-align: center; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.btn {
+  display: inline-block; padding: .6rem 1.4rem; border-radius: var(--radius);
+  font-size: .9rem; font-weight: 500; text-decoration: none;
+  transition: all .15s;
+}
+.btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+.btn-primary:hover { background: #4090e0; text-decoration: none; }
+.btn-outline { background: transparent; color: var(--ok); border: 1px solid var(--ok); }
+.btn-outline:hover { border-color: #2ea043; color: #2ea043; text-decoration: none; }
+.callout {
+  background: var(--surface); border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.3rem; margin: 1rem auto; max-width: 500px;
+}
+.callout.ok { border-left-color: var(--ok); }
+.pricing-box {
+  background: var(--surface); border: 1px solid var(--ok);
+  border-radius: var(--radius); padding: 40px 24px;
+  text-align: center; margin: 32px auto; max-width: 400px;
+}
+.price { font-size: 3.5rem; font-weight: 700; color: var(--text); }
+.price sub { font-size: 1rem; color: var(--muted); font-weight: 400; }
+.guarantee { font-size: .85rem; color: var(--muted); margin-top: 16px; }
+footer {
+  max-width: var(--max-w); margin: 3rem auto 0;
+  padding-top: 1.5rem; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: .85rem; text-align: center;
+}
+@media (max-width: 600px) {
+  h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Open Notebook <span>Guide</span></a>
+  <div>
+    <a href="/deployment/">Deployment</a>
+    <a href="/hardware/">Hardware</a>
+    <a href="/models/">Models</a>
+    <a href="/vs-notebooklm/">vs NotebookLM</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/production-guide/" style="margin-left:1rem;">Pro Guide</a>
+  </div>
+</nav>
+
+<main>
+
+<section style="padding: 4rem 0 2rem;">
+  <h1>Open Notebook Production Manual</h1>
+  <p style="color:var(--muted);font-size:1.05rem;">One product. One price. Free updates for life.</p>
+
+  <div class="pricing-box">
+    <div class="price">$19 <sub>USD</sub></div>
+    <p style="color:var(--muted);margin-top:12px;">PDF + Markdown<br>Instant download<br>Free updates for life</p>
+    <button onclick="Paddle.Checkout.open({settings:{successUrl:'https://ownnote.dev/thanks/'},items:[{priceId:'OPEN_NOTEBOOK_PRICE_ID',quantity:1}]})" class="btn btn-outline" style="margin-top:1.5rem;font-size:1rem;padding:.8rem 2.5rem;cursor:pointer;font-family:inherit;">Buy Now — $19</button>
+    <p class="guarantee">30-day money-back guarantee</p>
+  </div>
+
+  <div class="callout ok">
+    <strong>What you get:</strong> 8 chapters, full production configs, 30+ error fixes, monitoring dashboards, CI/CD templates. Everything you need to run Open Notebook in production for a team.
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p><a href="/">Open Notebook Guide</a> — independent community resource. Not affiliated with lfnovo or Google.</p>
+  <p style="margin-top:.5rem;">
+    <a href="/privacy/">Privacy</a> &middot;
+    <a href="/terms/">Terms</a> &middot;
+    <a href="/refunds/">Refunds</a>
+  </p>
+</footer>
+
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>Paddle.Initialize({token:'OPEN_NOTEBOOK_LIVE_TOKEN',eventCallback:function(data){if(data.name==='checkout.completed'){window.location.href='https://ownnote.dev/thanks/';}}});</script>
+</body>
+</html>
