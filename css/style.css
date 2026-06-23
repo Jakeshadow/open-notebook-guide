@@ -72,13 +72,13 @@ main { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
   font-family: 'Google Sans', sans-serif;
   font-size: clamp(28px, 4vw, 2.2rem); font-weight: 700;
   line-height: 1.3; margin-bottom: 0.6rem;
-  color: var(--gray-900);
+  color: var(--google-blue);
 }
 .hero-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; max-width: 640px; margin: 0 auto; }
 .hero-actions { margin-top: 1.5rem; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
 /* === Typography === */
-h2 { font-family: 'Google Sans', sans-serif; font-size: 1.5rem; margin: 2.5rem 0 1rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--gray-200); }
+h2 { font-family: 'Google Sans', sans-serif; font-size: 1.3rem; margin: 2.5rem 0 1rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--gray-200); }
 h3 { font-family: 'Google Sans', sans-serif; font-size: 1.15rem; margin: 1.5rem 0 0.5rem; color: var(--text); }
 p { margin-bottom: 1rem; }
 a { color: var(--google-blue); text-decoration: none; }
