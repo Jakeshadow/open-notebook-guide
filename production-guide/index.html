@@ -106,6 +106,243 @@
 </ul>
 </section>
 
+<section>
+<h2>Free Preview — Read Chapters 0 &amp; 1</h2>
+<p style="color:var(--text-muted);margin-bottom:1rem;">No email. No signup. Just open and read. If these chapters don't convince you this manual is worth $19, nothing will.</p>
+
+<details style="margin-bottom:1rem;">
+<summary><strong>Chapter 0: Is Open Notebook Right for You?</strong> &mdash; 7 min read</summary>
+<div class="faq-answer" style="padding-top:1rem;">
+
+<p>Open Notebook is an open-source, self-hosted alternative to Google NotebookLM. It ingests documents (PDFs, URLs, YouTube transcripts, audio), indexes them with embeddings, and lets you chat with your content — plus generate multi-speaker AI podcasts. It supports 18+ AI providers instead of just Gemini, has no 50-source limit, and can run entirely offline.</p>
+
+<p>The question isn't whether it's good. The question is whether you should deploy it.</p>
+
+<h3>The 2-Minute Test</h3>
+<pre>mkdir open-notebook && cd open-notebook
+curl -O https://raw.githubusercontent.com/lfnovo/open-notebook/main/docker-compose.yml
+# Change the encryption key to your own secret string
+sed -i 's/change-me-to-a-secret-string/a-random-string-you-pick-now/' docker-compose.yml
+docker compose up -d</pre>
+<p>Open <code>http://localhost:8502</code>. On first run, Docker downloads the images (~30 seconds to 2 minutes depending on your connection). Once the interface appears, you've deployed Open Notebook.</p>
+
+<h3>The Honest Comparison</h3>
+<table>
+<thead><tr><th>Dimension</th><th>Open Notebook</th><th>NotebookLM</th></tr></thead>
+<tbody>
+<tr><td>Data privacy</td><td>Full local mode (Ollama). Cloud APIs see query text only.</td><td>Everything on Google's servers.</td></tr>
+<tr><td>Setup time</td><td>2 min Docker (cloud API). 15-30 min (Ollama). 1-2 hrs (production).</td><td>0 min. Sign in.</td></tr>
+<tr><td>AI providers</td><td>18+ (OpenAI, Claude, Ollama, Groq, DeepSeek, ElevenLabs...)</td><td>Gemini only.</td></tr>
+<tr><td>Source limits</td><td>No hard cap. Storage + context window only.</td><td>50 sources per notebook. 500K words per source.</td></tr>
+<tr><td>Podcast generation</td><td>1-4 speakers. Custom voice profiles. Editable prompts.</td><td>2 speakers. "Live host" mode.</td></tr>
+<tr><td>API access</td><td>Full REST API on port 5055.</td><td>None.</td></tr>
+<tr><td>Citations</td><td>Basic (acknowledged weakness).</td><td>Excellent. Exact passages highlighted.</td></tr>
+<tr><td>Cost</td><td>$0-$30/user/month (API) or $0 (Ollama) + infra.</td><td>Free tier. Plus: ~$20/month/user.</td></tr>
+<tr><td>Offline</td><td>Yes, with Ollama.</td><td>No.</td></tr>
+</tbody>
+</table>
+
+<h4>vs AnythingLLM</h4>
+<p>AnythingLLM (also open source) is similar — but Open Notebook's podcast/audio overview feature is the differentiator. If you don't need podcast generation, AnythingLLM has a more polished UI and easier setup. If you do need podcasts, Open Notebook is the clear winner.</p>
+
+<h4>vs PrivateGPT</h4>
+<p>PrivateGPT focuses on document Q&A with guaranteed local processing. It's lighter but has no podcast feature, no multi-model routing, and a more basic UI. Open Notebook is the full research workspace; PrivateGPT is the focused document chatbot.</p>
+
+<h3>Who Should Self-Host</h3>
+<p><strong>Do it if:</strong></p>
+<ul>
+<li>You handle sensitive documents (legal, medical, proprietary code) and can't upload them to Google</li>
+<li>You want API access to automate document processing in your workflow</li>
+<li>You've hit NotebookLM's 50-source cap and still have 100 more papers to ingest</li>
+<li>You need podcasts with more than 2 speakers or custom voice profiles</li>
+<li>You want to use Claude or GPT-4o for analysis quality that Gemini can't match</li>
+<li>You're building a product and need a white-label document AI backend</li>
+</ul>
+<p><strong>Skip it if:</strong></p>
+<ul>
+<li>You use NotebookLM casually and have no compliance requirements</li>
+<li>You don't want to spend 1-2 hours on initial setup and ongoing maintenance</li>
+<li>You need production-quality citations (Open Notebook's citations are basic)</li>
+<li>You just need a chatbot for a few PDFs (use ChatGPT file upload or Claude Projects)</li>
+</ul>
+
+<h3>The $0 vs $30 vs $150 Setup</h3>
+<table>
+<thead><tr><th></th><th>$0/month</th><th>$30/month</th><th>$150/month</th></tr></thead>
+<tbody>
+<tr><td>Chat model</td><td>Ollama (gpt-oss:20b)</td><td>Groq (llama-3.3-70b)</td><td>Claude Sonnet</td></tr>
+<tr><td>Embedding</td><td>Ollama (nomic-embed-text)</td><td>OpenAI (text-embedding-3-small)</td><td>Same</td></tr>
+<tr><td>Podcast TTS</td><td>Offline (no podcasts)</td><td>ElevenLabs</td><td>ElevenLabs</td></tr>
+<tr><td>Good for</td><td>Solo privacy use</td><td>Solo/2-person, good quality</td><td>Full team, best quality</td></tr>
+<tr><td>GPU needed</td><td>Yes (12GB+ VRAM)</td><td>No</td><td>No</td></tr>
+</tbody>
+</table>
+<p style="font-size:.9rem;color:var(--text-muted);">Note: Groq offers a generous free tier — most solo users won't hit $30/month under normal usage. The $30 figure is a conservative ceiling.</p>
+</div>
+</details>
+
+<details>
+<summary><strong>Chapter 1: Docker Deep Dive — From docker compose up to a Solid Foundation</strong> &mdash; 15 min read</summary>
+<div class="faq-answer" style="padding-top:1rem;">
+
+<p>Chapter 0 gave you a 2-minute quickstart. This chapter explains every single line you just ran, so when something breaks at 2 AM, you know exactly where to look.</p>
+
+<h3>The Full docker-compose.yml — Line by Line</h3>
+<p>Here's the actual compose file from lfnovo/open-notebook, annotated:</p>
+
+<pre>services:
+  # ── SERVICE 1: SurrealDB (Database) ──
+  surrealdb:
+    image: surrealdb/surrealdb:v2
+    command: start --log info \
+      --user ${SURREAL_USER:-root} \
+      --pass ${SURREAL_PASSWORD:-root} \
+      rocksdb:/mydata/mydatabase.db
+    user: root  # Required for bind mounts on Linux
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./surreal_data:/mydata     # All notebooks, notes, chat history
+    environment:
+      - SURREAL_EXPERIMENTAL_GRAPHQL=true
+    restart: always
+    pull_policy: always
+
+  # ── SERVICE 2: Open Notebook App ──
+  open_notebook:
+    image: lfnovo/open_notebook:v1-latest
+    ports:
+      - "8502:8502"  # Web UI
+      - "5055:5055"  # REST API
+    volumes:
+      - ./notebook_data:/app/data   # Uploaded files, processed docs
+    environment:
+      # REQUIRED: Change this to your own secret string
+      - OPEN_NOTEBOOK_ENCRYPTION_KEY=change-me-to-a-secret-string
+      # Database connection
+      - SURREAL_URL=ws://surrealdb:8000/rpc
+      - SURREAL_USER=${SURREAL_USER:-root}
+      - SURREAL_PASSWORD=${SURREAL_PASSWORD:-root}
+      - SURREAL_NAMESPACE=open_notebook
+      - SURREAL_DATABASE=open_notebook
+    depends_on:
+      - surrealdb
+    restart: always
+    pull_policy: always</pre>
+
+<ul style="font-size:.93rem;color:var(--text-muted);">
+<li>No <code>version:</code> key — Docker Compose V2 doesn't need it.</li>
+<li>DB service starts first (<code>depends_on</code>), but the app retries internally on startup.</li>
+<li><code>user: root</code> on SurrealDB is intentional — Linux bind mounts default to root ownership.</li>
+<li>No AI provider keys here. Configure them via the UI at <strong>Settings → API Keys</strong>. The old env-var approach is deprecated.</li>
+</ul>
+
+<h3>What Each Volume Actually Stores</h3>
+<table>
+<thead><tr><th>Path</th><th>Contents</th><th>Backup Priority</th></tr></thead>
+<tbody>
+<tr><td><code>./surreal_data/</code></td><td>Every notebook, note, chat message, source metadata</td><td><span style="color:var(--danger);">CRITICAL</span></td></tr>
+<tr><td><code>./notebook_data/</code></td><td>Raw uploaded files (PDFs, audio), processed chunks</td><td><span style="color:var(--warn);">HIGH</span></td></tr>
+</tbody>
+</table>
+<p>You can delete <code>./notebook_data/</code> and re-upload documents without losing your research structure. You absolutely cannot delete <code>./surreal_data/</code>.</p>
+
+<h3>The Networking Model</h3>
+<p>Inside Docker's default bridge network, services reach each other by container name:</p>
+<pre>open_notebook → surrealdb    via ws://surrealdb:8000/rpc    ← Docker DNS
+open_notebook → ollama       via http://ollama:11434         ← Docker DNS
+your browser  → open_notebook via http://localhost:8502      ← Host port mapping</pre>
+
+<div class="callout warn">
+<strong>This is the #1 source of first-time errors.</strong> When adding Ollama in the Settings UI, use <code>http://ollama:11434</code> — not <code>http://localhost:11434</code>. Inside the container, <code>localhost</code> points to the container itself.
+</div>
+
+<h3>Adding Ollama to the Stack</h3>
+<pre>  ollama:
+    image: ollama/ollama:latest
+    container_name: open-notebook-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: always
+    pull_policy: always</pre>
+<p>If you're on CPU-only or Apple Silicon, remove the entire <code>deploy.resources</code> block.</p>
+
+<h3>The First-Run Checklist</h3>
+<pre># 1. All services running?
+docker compose ps
+
+# 2. Web UI accessible?
+curl -I http://localhost:8502
+
+# 3. API responding?
+curl http://localhost:5055/api/health
+
+# 4. Database connected?
+docker compose logs surrealdb | grep -i "started"
+
+# 5. Ollama model loaded (if using Ollama)?
+curl http://localhost:11434/api/tags
+
+# 6. ENCRYPTION_KEY changed from default?
+docker compose exec open_notebook env | grep ENCRYPTION_KEY
+
+# 7. Disk space adequate?
+df -h ./surreal_data ./notebook_data ./ollama_data</pre>
+
+<h3>Five Common First-Run Errors (And Their Exact Fixes)</h3>
+
+<h4>Error 1: Ports are not available</h4>
+<pre>sudo lsof -i :8502
+# Change host port: "8503:8502" → access on :8503</pre>
+
+<h4>Error 2: PermissionError on SurrealDB</h4>
+<p>The SurrealDB container runs as root by default (<code>user: root</code> in compose), which is correct for Linux bind mounts. If you've changed this:</p>
+<pre>sudo chown -R 1000:1000 ./surreal_data</pre>
+
+<h4>Error 3: Ollama embedding — Connection error, but chat works</h4>
+<p>This is the Esperanto library bug (<a href="https://github.com/lfnovo/open-notebook/issues/655" target="_blank">Issue #655</a>). In <strong>Settings → API Keys → Ollama</strong>, verify the Base URL is set correctly. If the embedding-specific URL field is available, set it explicitly. Workaround: use a cloud embedding provider (OpenAI <code>text-embedding-3-small</code> or Voyage AI) at &lt; $0.01 per 1000 documents.</p>
+
+<h4>Error 4: CUDA out of memory</h4>
+<table>
+<thead><tr><th>GPU VRAM</th><th>Model size</th><th>Recommended num_ctx</th></tr></thead>
+<tbody>
+<tr><td>12 GB</td><td>20B</td><td>2048</td></tr>
+<tr><td>24 GB</td><td>20B</td><td>8192</td></tr>
+<tr><td>12 GB</td><td>8B</td><td>8192 (recommended)</td></tr>
+<tr><td>8 GB</td><td>8B</td><td>4096</td></tr>
+</tbody>
+</table>
+
+<h4>Error 5: WebSocket connection to SurrealDB failed</h4>
+<pre>docker compose exec open_notebook sh -c "wget -qO- http://surrealdb:8000/health"
+docker compose ps  # Verify both services are Up</pre>
+
+<h3>SurrealDB: Quick Backup/Restore</h3>
+<pre># Backup
+docker compose exec surrealdb surreal export \
+  --conn http://localhost:8000 --user root --pass root \
+  --ns open_notebook --db open_notebook \
+  > backup-$(date +%Y%m%d).surql
+
+# Restore
+cat backup-20260625.surql | docker compose exec -T surrealdb surreal import \
+  --conn http://localhost:8000 --user root --pass root \
+  --ns open_notebook --db open_notebook</pre>
+</div>
+</details>
+
+<p style="color:var(--text-muted);margin-top:1rem;font-size:.9rem;">This is the quality bar for every chapter in the full manual. Copy-paste ready. No filler. Real error messages with exact fixes.</p>
+</section>
+
 <section id="buy">
 <h2 style="color:var(--google-green); border-color:var(--google-green);">Get the Production Manual</h2>
 
