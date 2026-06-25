@@ -70,18 +70,17 @@
 
 <section>
 <h2>What's Inside</h2>
-<p>8 chapters. PDF + Markdown. Every config is copy-paste ready. Every error has an exact fix — not "check your settings," but "run this command."</p>
+<p>10 chapters. Free preview: Ch 0-1. Paid manual: Ch 2-8. PDF + Markdown. Every config is copy-paste ready. Every error has an exact fix — not "check your settings," but "run this command."</p>
 
-<ul class="module-list">
-  <li><strong>1. Production Docker Stack</strong> — Full docker-compose with resource limits, health checks, restart policies, and GPU passthrough. Not the quick-start template — the one you run in production.</li>
-  <li><strong>2. TLS & Reverse Proxy</strong> — nginx config with HTTP/2, WebSocket support, rate limiting, and automated cert renewal. Traefik alternative included.</li>
-  <li><strong>3. Monitoring & Alerts</strong> — Prometheus + Grafana dashboard for API latency, token usage, GPU utilization. Alert rules for OOM, disk full, and API errors.</li>
-  <li><strong>4. Backup & Disaster Recovery</strong> — Automated backup to S3/rsync, point-in-time recovery for SurrealDB, migration between machines.</li>
-  <li><strong>5. Multi-User Deployment</strong> — Per-team instance isolation, nginx basic auth, resource quotas, and usage tracking.</li>
-  <li><strong>6. Error Reference (30+)</strong> — Every error we've hit in production with exact fix commands. OOM, embedding failures, SurrealDB corruption, API timeouts, podcast generation failures.</li>
-  <li><strong>7. CI/CD Pipeline</strong> — GitHub Actions template for automated testing, deployment, and health checks on push.</li>
-  <li><strong>8. Scaling Playbook</strong> — When to separate Ollama, when to add GPUs, load balancing, and caching strategies.</li>
-</ul>
+	<ul class="module-list">
+	  <li><strong>Ch 2: Model Strategy</strong> — Per-task model routing (chat vs embedding vs TTS). Cost-optimized configs from $0 to $150/month. Ollama tuning by VRAM.</li>
+	  <li><strong>Ch 3: Reverse Proxy, TLS &amp; Auth</strong> — nginx with HTTP/2, WebSocket, Let's Encrypt. Three-layer auth (password, basic auth, OAuth2). fail2ban brute-force protection.</li>
+	  <li><strong>Ch 4: Production Deployment</strong> — systemd service, split Ollama+App architecture via Tailscale. K8s patterns. Hetzner/AWS/GCP cloud recipes with monthly cost estimates.</li>
+	  <li><strong>Ch 5: Data Management &amp; Backup</strong> — Automated daily backups with rclone off-site (B2/S3/Drive). Tested disaster recovery procedure. Data pruning and migration scripts.</li>
+	  <li><strong>Ch 6: Multi-User &amp; Team Setup</strong> — Per-team instance isolation. OAuth2 proxy with per-user identity. Cost allocation tracking. Offboarding scripts.</li>
+	  <li><strong>Ch 7: API-Driven Workflows &amp; Automation</strong> — Full REST API reference. Python batch ingestion and podcast automation. n8n and Zapier recipes. Custom frontend example (Flask).</li>
+	  <li><strong>Ch 8: Monitoring &amp; Maintenance</strong> — Prometheus + Grafana stack with 6 alert rules. Loki log management. Update/rollback strategy. Weekly/monthly/quarterly maintenance checklists.</li>
+	</ul>
 </section>
 
 <section>
