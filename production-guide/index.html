@@ -112,7 +112,7 @@
 <div class="pricing-box">
   <div class="price">$19 <sub>one-time</sub></div>
   <p style="color:var(--text-muted);margin-top:8px;">PDF + Markdown. Instant download. Free updates.</p>
-  <button onclick="Paddle.Checkout.open({settings:{successUrl:'https://localnotebook.dev/thanks/'},items:[{priceId:'OPEN_NOTEBOOK_PRICE_ID',quantity:1}]})" class="btn btn-accent btn-lg" style="margin-top:1rem;font-family:inherit;cursor:pointer;">Buy Now — $19</button>
+  <button onclick="Paddle.Checkout.open({settings:{successUrl:'https://localnotebook.dev/thanks/'},items:[{priceId:'pri_01kvzvsdcf4deb04pnxbfcq7wa',quantity:1}]})" class="btn btn-accent btn-lg" style="margin-top:1rem;font-family:inherit;cursor:pointer;">Buy Now — $19</button>
   <p class="guarantee">30-day money-back guarantee. If it doesn't save you 20+ hours, email support@localnotebook.dev for a full refund.</p>
 </div>
 
@@ -168,6 +168,6 @@
   </p>
 </footer>
 <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-<script>Paddle.Initialize({token:'OPEN_NOTEBOOK_LIVE_TOKEN',eventCallback:function(data){if(data.name==='checkout.completed'){window.location.href='https://localnotebook.dev/thanks/';}}});</script>
+<script>Paddle.Initialize({token:'live_290cee1a87c9f8199d453c665f4',eventCallback:function(data){if(data.name==='checkout.completed'){window.location.href='https://localnotebook.dev/thanks/';}}});</script>
 </body>
 </html>

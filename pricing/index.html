@@ -49,7 +49,7 @@
   <div class="pricing-box" style="max-width:400px;margin:32px auto;">
     <div class="price">$19 <sub>USD</sub></div>
     <p style="color:var(--text-muted);margin-top:12px;">PDF + Markdown<br>Instant download<br>Free updates for life</p>
-    <button onclick="Paddle.Checkout.open({settings:{successUrl:'https://localnotebook.dev/thanks/'},items:[{priceId:'OPEN_NOTEBOOK_PRICE_ID',quantity:1}]})" style="margin-top:1.5rem;font-size:1rem;padding:.8rem 2.5rem;cursor:pointer;font-family:inherit;" class="btn btn-accent btn-lg">Buy Now — $19</button>
+    <button onclick="Paddle.Checkout.open({settings:{successUrl:'https://localnotebook.dev/thanks/'},items:[{priceId:'pri_01kvzvsdcf4deb04pnxbfcq7wa',quantity:1}]})" style="margin-top:1.5rem;font-size:1rem;padding:.8rem 2.5rem;cursor:pointer;font-family:inherit;" class="btn btn-accent btn-lg">Buy Now — $19</button>
     <p class="guarantee">30-day money-back guarantee</p>
   </div>
 
@@ -70,6 +70,6 @@
 </footer>
 
 <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-<script>Paddle.Initialize({token:'OPEN_NOTEBOOK_LIVE_TOKEN',eventCallback:function(data){if(data.name==='checkout.completed'){window.location.href='https://localnotebook.dev/thanks/';}}});</script>
+<script>Paddle.Initialize({token:'live_290cee1a87c9f8199d453c665f4',eventCallback:function(data){if(data.name==='checkout.completed'){window.location.href='https://localnotebook.dev/thanks/';}}});</script>
 </body>
 </html>
