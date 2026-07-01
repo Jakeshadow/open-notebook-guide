@@ -25,6 +25,78 @@
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What's the cheapest way to get started without a GPU?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Groq (free tier) or OpenAI API. A $5/month DigitalOcean droplet or Hetzner CX22 runs Open Notebook fine with cloud APIs. Groq's free tier gives ~30 requests/minute to Llama 3.3 70B and DeepSeek-R1. Add nomic-embed-text via Ollama for free local embeddings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Ollama connection test passes but embeddings fail with 'Connection error'",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Known bug in the Esperanto embedding library (GitHub #655). Fix: pull the embedding model, set Ollama base URL to http://ollama:11434 (Docker service name, NOT localhost), restart Open Notebook."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Ollama runs out of memory (OOM) on my GPU",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open Notebook v1.8+ defaults num_ctx to 8192 to prevent OOM. Rule of thumb: 1 GB VRAM per ~2048 context tokens at 7B parameters. With 8 GB VRAM, stick to 7B models, keep ctx ≤ 8192."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "SurrealDB 'Permission denied' on Linux",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The SurrealDB container runs as root by default. If mounting a local directory, run sudo chown -R 1000:1000 ./surreal-data/ or add user: root to the SurrealDB service in docker-compose.yml."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I expose Open Notebook to the internet safely?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never expose ports 8502 or 5055 directly. Set OPEN_NOTEBOOK_PASSWORD, put nginx in front with Let's Encrypt TLS, UFW allow only 80/443, bind everything to 127.0.0.1."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which model combination gives the best quality-to-cost ratio?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Best value: GPT-4o-mini for chat ($0.15/1M input) + text-embedding-3-small ($0.02/1M) + ElevenLabs for TTS. ~$10-20/month for heavy use. Zero-cost mode: Groq free tier (Llama 3.3 70B) + Ollama nomic-embed-text (free local)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Open Notebook good enough for academic research?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For literature review and synthesis: yes. Upload papers, ask questions across them. For exact citations and writing: no — Open Notebook's citation system gives approximate source references. NotebookLM is better for publication-grade citations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I upgrade Open Notebook without losing my data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Data lives in Docker volumes, not inside containers. Upgrades are safe: docker compose pull && docker compose up -d. Backup with docker exec open-notebook-surreal-1 surreal export."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
