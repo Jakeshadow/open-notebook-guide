@@ -25,6 +25,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Self-Host Open Notebook — 5 Steps to Production",
+  "description": "From docker compose up to TLS + multi-user production. Complete deployment with nginx, Let's Encrypt, backup, and team access.",
+  "step": [
+    { "@type": "HowToStep", "position": 1, "name": "Docker Quick Start", "text": "docker compose up — working in 2 minutes with docker-compose.yml." },
+    { "@type": "HowToStep", "position": 2, "name": "Connect AI Provider", "text": "Choose Ollama for free local models or any of 18+ cloud API providers." },
+    { "@type": "HowToStep", "position": 3, "name": "nginx + TLS", "text": "Set up reverse proxy with Let's Encrypt TLS using the provided nginx config." },
+    { "@type": "HowToStep", "position": 4, "name": "Backup & Storage", "text": "Configure persistent Docker volumes with automated backup scripts." },
+    { "@type": "HowToStep", "position": 5, "name": "Multi-User Setup", "text": "Add instance passwords, nginx basic auth per user, or team isolation stacks." }
+  ]
+}
+</script>
 </head>
 <body>
 
